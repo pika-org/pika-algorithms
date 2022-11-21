@@ -4,23 +4,35 @@
 # Distributed under the Boost Software License, Version 1.0. (See accompanying
 # file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-set(subdirs "")
+set(subdirs)
 
-if(PIKA_WITH_TESTS_BENCHMARKS)
-  set(subdirs ${subdirs} performance)
-  set(performance_FLAGS ON)
+add_library(pika_algorithms_test_utilities INTERFACE)
+target_link_libraries(pika_algorithms_test_utilities INTERFACE pika::pika)
+target_include_directories(
+  pika_algorithms_test_utilities INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
+
+if(PIKA_ALGORITHMS_WITH_TESTS_BENCHMARKS)
+  list(APPEND subdirs performance)
 endif()
 
-if(PIKA_WITH_TESTS_REGRESSIONS)
-  set(subdirs ${subdirs} regressions)
-  set(regressions_FLAGS ON)
+if(PIKA_ALGORITHMS_WITH_TESTS_REGRESSIONS)
+  list(APPEND subdirs regressions)
 endif()
 
-if(PIKA_WITH_TESTS_UNIT)
-  set(subdirs ${subdirs} unit)
-  set(unit_FLAGS ON)
+if(PIKA_ALGORITHMS_WITH_TESTS_UNIT)
+  list(APPEND subdirs unit)
 endif()
 
 foreach(subdir ${subdirs})
   add_subdirectory(${subdir})
 endforeach()
+
+if(PIKA_ALGORITHMS_WITH_TESTS_HEADERS)
+  pika_algorithms_add_header_tests(
+    algorithms
+    HEADERS ${pika_algorithms_headers}
+    HEADER_ROOT ${PROJECT_SOURCE_DIR}/include
+    DEPENDENCIES pika_algorithms
+  )
+endif()

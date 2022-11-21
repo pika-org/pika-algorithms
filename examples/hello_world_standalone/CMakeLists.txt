@@ -8,18 +8,22 @@ cmake_minimum_required(VERSION 3.18)
 
 project(hello_world CXX)
 
-if(EXISTS "${pika_DIR}")
+if(EXISTS "${pika-algorithms_DIR}")
   find_package(pika REQUIRED)
+  find_package(pika-algorithms REQUIRED)
 
   add_executable(hello_world hello_world.cpp)
   target_include_directories(hello_world PRIVATE ${test_SOURCE_DIR})
-  target_link_libraries(hello_world PRIVATE pika::pika)
+  target_link_libraries(
+    hello_world PRIVATE pika::pika pika-algorithms::pika_algorithms
+  )
 
   if(MSVC)
     # Only for the purposes of testing we output the executable and libraries to
-    # the output directory of pika
+    # the output directory of pika-algorithms
     set_target_properties(
-      hello_world PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${PIKA_OUTPUT_DIRECTORY}
+      hello_world PROPERTIES RUNTIME_OUTPUT_DIRECTORY
+                             ${PIKA_ALGORITHMS_OUTPUT_DIRECTORY}
     )
   endif()
 
@@ -28,7 +32,7 @@ if(EXISTS "${pika_DIR}")
 else()
   message(
     WARNING
-      "Skipping build test because pika_DIR=${pika_DIR} does not exist. This \
+      "Skipping build test because pika-algorithms_DIR=${pika-algorithms_DIR} does not exist. This \
       last test requires pika to be installed.  Did you forget to run the \
       install rule?"
   )

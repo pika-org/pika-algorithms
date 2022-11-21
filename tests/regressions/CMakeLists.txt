@@ -5,33 +5,43 @@
 # Distributed under the Boost Software License, Version 1.0. (See accompanying
 # file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-set(subdirs threads util)
-
-foreach(subdir ${subdirs})
-  pika_add_pseudo_target(tests.regressions.${subdir})
-  add_subdirectory(${subdir})
-  pika_add_pseudo_dependencies(tests.regressions tests.regressions.${subdir})
-endforeach()
-
-set(tests multiple_init multiple_init_2918 stack_size_config_4543
-          unhandled_exception_582
+set(tests
+    count_3646
+    for_each_annotated_function
+    for_loop_2281
+    minimal_findend
+    reduce_3641
+    scan_different_inits
+    scan_non_commutative
+    scan_shortlength
+    search_zerolength
+    set_operations_3442
+    stable_merge_2964
+    static_chunker_2282
+    transform_inclusive_scan_4786
+    transform_inclusive_scan_4787
+    ranges_facilities
 )
 
-set(unhandled_exception_582_PARAMETERS THREADS 1)
+if(PIKA_ALGORITHMS_WITH_STD_EXPERIMENTAL_SIMD)
+  list(APPEND tests for_each_datapar)
+endif()
 
 foreach(test ${tests})
   set(sources ${test}.cpp)
 
+  set(${test}_PARAMETERS THREADS 4)
+
   source_group("Source Files" FILES ${sources})
 
-  # add example executable
-  pika_add_executable(
+  pika_algorithms_add_executable(
     ${test}_test INTERNAL_FLAGS
-    SOURCES ${sources} ${${test}_FLAGS}
-    EXCLUDE_FROM_ALL
-    FOLDER "Tests/Regressions/Modules/"
+    SOURCES ${sources}
+    EXCLUDE_FROM_ALL ${${test}_FLAGS}
+    FOLDER "Tests/Regressions/"
   )
 
-  pika_add_regression_test("" ${test} ${${test}_PARAMETERS})
+  target_link_libraries(${test}_test PRIVATE pika_algorithms_test_utilities)
 
+  pika_algorithms_add_regression_test("" ${test} ${${test}_PARAMETERS})
 endforeach()

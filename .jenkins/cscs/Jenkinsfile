@@ -28,7 +28,7 @@ pipeline {
     stages {
         stage('checkout') {
             steps {
-                dir('pika') {
+                dir('pika-algorithms') {
                     checkout scm
                     echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
                 }
@@ -52,7 +52,7 @@ pipeline {
                 stages {
                     stage('build') {
                         steps {
-                            dir('pika') {
+                            dir('pika-algorithms') {
                                 sh '''
                                 #!/bin/bash -l
                                 .jenkins/cscs/entry.sh
@@ -67,8 +67,8 @@ pipeline {
 
     post {
         always {
-            archiveArtifacts artifacts: 'pika/jenkins-pika-*', fingerprint: true
-            archiveArtifacts artifacts: 'pika/*-Testing/**', fingerprint: true
+            archiveArtifacts artifacts: 'pika-algorithms/jenkins-pika-algorithms-*', fingerprint: true
+            archiveArtifacts artifacts: 'pika-algorithms/*-Testing/**', fingerprint: true
         }
     }
 }

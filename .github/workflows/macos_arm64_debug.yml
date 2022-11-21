@@ -29,8 +29,15 @@ jobs:
           brew update
           brew install boost cmake fmt hwloc ninja
     - uses: actions/checkout@v2
-    - name: Configure
+    - name: Check out pika
+      uses: actions/checkout@v3
+      with:
+        repository: pika-org/pika
+        ref: main
+        path: pika
+    - name: Install pika
       shell: bash
+      working-directory: pika
       run: |
           eval $(/opt/homebrew/bin/brew shellenv)
           cmake \
@@ -38,13 +45,25 @@ jobs:
               -Bbuild \
               -GNinja \
               -DCMAKE_BUILD_TYPE=Debug \
-              -DPIKA_WITH_MALLOC=system \
-              -DPIKA_WITH_EXAMPLES=ON \
-              -DPIKA_WITH_TESTS=ON \
-              -DPIKA_WITH_TESTS_EXAMPLES=ON \
-              -DPIKA_WITH_TESTS_HEADERS=OFF \
-              -DPIKA_WITH_COMPILER_WARNINGS=ON \
-              -DPIKA_WITH_COMPILER_WARNINGS_AS_ERRORS=ON
+              -DCMAKE_INSTALL_PREFIX=$HOME/install/pika \
+              -DPIKA_WITH_MALLOC=system
+          cmake --build build --target install
+    - name: Configure
+      shell: bash
+      run: |
+          eval $(/opt/homebrew/bin/brew shellenv)
+          export CMAKE_PREFIX_PATH=$HOME/install/pika:$CMAKE_PREFIX_PATH
+          cmake \
+              . \
+              -Bbuild \
+              -GNinja \
+              -DCMAKE_BUILD_TYPE=Debug \
+              -DPIKA_ALGORITHMS_WITH_EXAMPLES=ON \
+              -DPIKA_ALGORITHMS_WITH_TESTS=ON \
+              -DPIKA_ALGORITHMS_WITH_TESTS_EXAMPLES=ON \
+              -DPIKA_ALGORITHMS_WITH_TESTS_HEADERS=OFF \
+              -DPIKA_ALGORITHMS_WITH_COMPILER_WARNINGS=ON \
+              -DPIKA_ALGORITHMS_WITH_COMPILER_WARNINGS_AS_ERRORS=ON
     - name: Build
       shell: bash
       run: |
@@ -59,11 +78,4 @@ jobs:
           cd build
           ctest \
             --timeout 300 \
-            --output-on-failure \
-            --exclude-regex \
-          "tests.unit.modules.init_runtime.const_args_init|\
-          tests.unit.modules.resource_partitioner|\
-          tests.unit.modules.schedulers.schedule_last|\
-          tests.regressions.modules.threading_base.thread_stacksize_current|\
-          tests.performance.local.start_stop|\
-          tests.regressions.multiple_init"
+            --output-on-failure

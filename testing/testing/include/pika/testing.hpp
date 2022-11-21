@@ -68,11 +68,11 @@ namespace pika { namespace util {
             explicit fixture(std::ostream& stream);
             ~fixture();
 
-            PIKA_EXPORT void increment_tests(counter_type c);
-            PIKA_EXPORT void increment_failures(counter_type c);
+            void increment_tests(counter_type c);
+            void increment_failures(counter_type c);
 
-            PIKA_EXPORT std::size_t get_tests(counter_type c) const;
-            PIKA_EXPORT std::size_t get_failures(counter_type c) const;
+            std::size_t get_tests(counter_type c) const;
+            std::size_t get_failures(counter_type c) const;
 
             template <typename T>
             bool check_(char const* file, int line, char const* function,
@@ -199,13 +199,13 @@ namespace pika { namespace util {
             }
         };
 
-        PIKA_EXPORT extern fixture global_fixture;
+        extern fixture global_fixture;
 
     }    // namespace detail
 
     ////////////////////////////////////////////////////////////////////////////
-    PIKA_EXPORT int report_errors();
-    PIKA_EXPORT int report_errors(std::ostream& stream);
+    int report_errors();
+    int report_errors(std::ostream& stream);
 }}    // namespace pika::util
 
 ////////////////////////////////////////////////////////////////////////////////

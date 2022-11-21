@@ -1,0 +1,65 @@
+# Copyright (c) 2014 Thomas Heller
+# Copyright (c) 2015 Andreas Schaefer
+#
+# SPDX-License-Identifier: BSL-1.0
+# Distributed under the Boost Software License, Version 1.0. (See accompanying
+# file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+
+set(PIKA_ALGORITHMS_FIND_PACKAGE ON)
+cmake_policy(VERSION 3.18)
+
+# Forward PIKA_ALGORITHMS_* cache variables
+include("${CMAKE_CURRENT_LIST_DIR}/pika_algorithms_cache_variables.cmake")
+
+# include pika cmake utilities
+include("${CMAKE_CURRENT_LIST_DIR}/pika_algorithms_macros.cmake")
+
+# include exported targets
+include("${CMAKE_CURRENT_LIST_DIR}/pika_algorithms_internal_targets.cmake")
+include("${CMAKE_CURRENT_LIST_DIR}/pika_algorithms_targets.cmake")
+
+get_filename_component(
+  _pika_algorithms_root_dir "${CMAKE_CURRENT_LIST_DIR}/../../.." ABSOLUTE
+)
+
+set(PIKA_ALGORITHMS_VERSION_STRING "@PIKA_ALGORITHMS_VERSION@")
+set(PIKA_ALGORITHMS_VERSION_MAJOR @PIKA_ALGORITHMS_VERSION_MAJOR@)
+set(PIKA_ALGORITHMS_VERSION_MINOR @PIKA_ALGORITHMS_VERSION_MINOR@)
+set(PIKA_ALGORITHMS_VERSION_PATCH @PIKA_ALGORITHMS_VERSION_PATCH@)
+
+set(PIKA_ALGORITHMS_DEBUG_POSTFIX "@PIKA_ALGORITHMS_DEBUG_POSTFIX@")
+set(PIKA_ALGORITHMS_BUILD_TYPE "@CMAKE_BUILD_TYPE@")
+# We explicitly set the default to 98 to force CMake to emit a -std=c++XX flag.
+# Some compilers (clang) have a different default standard for cpp and cu files,
+# but CMake does not know about this difference. If the standard is set to the
+# .cpp default in CMake, CMake will omit the flag, resulting in the wrong
+# standard for .cu files.
+set(CMAKE_CXX_STANDARD_DEFAULT 98)
+
+set(PIKA_ALGORITHMS_GIT_COMMIT
+    "@PIKA_ALGORITHMS_WITH_GIT_COMMIT@"
+    CACHE STRING "Revision of pika from Git" FORCE
+)
+
+set(PIKA_ALGORITHMS_CXX_COMPILER
+    "@CMAKE_CXX_COMPILER@"
+    CACHE STRING "CXX compiler for pika" FORCE
+)
+set(PIKA_ALGORITHMS_CXX_COMPILER_ID
+    "@CMAKE_CXX_COMPILER_ID@"
+    CACHE STRING "CXX compiler id for pika" FORCE
+)
+set(PIKA_ALGORITHMS_CXX_COMPILER_VERSION
+    "@CMAKE_CXX_COMPILER_VERSION@"
+    CACHE STRING "CXX compiler version for pika" FORCE
+)
+
+if(NOT PIKA_ALGORITHMS_CMAKE_LOGLEVEL)
+  set(PIKA_ALGORITHMS_CMAKE_LOGLEVEL "WARN")
+endif()
+
+pika_algorithms_check_compiler_compatibility()
+
+if(NOT DEFINED ${CMAKE_FIND_PACKAGE_NAME}_FOUND)
+  set(${CMAKE_FIND_PACKAGE_NAME}_FOUND true)
+endif()

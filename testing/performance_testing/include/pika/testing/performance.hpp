@@ -80,12 +80,11 @@ namespace pika { namespace util {
             double time);
     }    // namespace detail
 
-    PIKA_EXPORT void perftests_report(std::string const& name,
-        std::string const& exec, const std::size_t steps,
-        detail::function<void(void)>&& test);
+    void perftests_report(std::string const& name, std::string const& exec,
+        const std::size_t steps, detail::function<void(void)>&& test);
 
-    PIKA_EXPORT void perftests_print_times();
+    void perftests_print_times();
 
-    PIKA_EXPORT void print_cdash_timing(const char* name, double time);
-    PIKA_EXPORT void print_cdash_timing(const char* name, std::uint64_t time);
+    void print_cdash_timing(const char* name, double time);
+    void print_cdash_timing(const char* name, std::uint64_t time);
 }}    // namespace pika::util

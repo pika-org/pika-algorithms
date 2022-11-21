@@ -17,7 +17,7 @@ branch_filter: &branch_filter
           - staging
 
 working_dir_default: &working_dir_default
-    working_directory: /pika/build
+    working_directory: /pika-algorithms/build
 
 setup_arm64_machine: &setup_arm64_machine
     machine:
@@ -76,71 +76,25 @@ version: 2
 jobs:
   checkout_code:
     <<: *docker_default
-    working_directory: /pika
+    working_directory: /pika-algorithms
     steps:
       - checkout:
-          path: /pika/source
+          path: /pika-algorithms/source
       - persist_to_workspace:
-          root: /pika
+          root: /pika-algorithms
           paths:
             - ./source
-
-  # Check circular dependencies with cpp-dependencies tool
-  check_circular_deps:
-    <<: *working_dir_default
-    <<: *docker_default
-    steps:
-      - attach_workspace:
-          at: /pika
-      - run:
-          name: Check circular dependencies with cpp-dependencies
-          command: |
-              # Ignore compatibility headers (the last cut -c3- is to remove a
-              # leading ./ in path names)
-              cpp-dependencies \
-                  --dir /pika/source/libs \
-                  --ignore $(find /pika/source/libs -type d -wholename '*/include_compatibility' | cut -d'/' -f5-) \
-                  --graph-cycles /tmp/circular_deps.dot
-              dot /tmp/circular_deps.dot -Tsvg -o /tmp/circular_deps.svg
-              if [[ $(wc -l /tmp/circular_deps.dot | awk '{print $1}') -gt 2 ]]; then exit 1; fi
-      - store_artifacts:
-          path: /tmp/circular_deps.dot
-          destination: /pika/artifacts/circular_deps.dot
-      - store_artifacts:
-          path: /tmp/circular_deps.svg
-          destination: /pika/artifacts/circular_deps.svg
-
-  # Check if the files of the module are listed in the CMakeLists.txt
-  # Check if all the module dependencies are listed
-  check_module_cmakelists:
-    <<: *defaults
-    steps:
-      - attach_workspace:
-          at: /pika
-      - run:
-          name: Check if the headers of the modules are listed in their CMakeLists.txt
-          command: |
-              /pika/source/tools/check_module_cmakelists.sh
-              if [[ $(wc -l /tmp/missing_files.txt | awk '{print $1}') -gt 1 ]] \
-                  || [[ $(wc -l /tmp/missing_deps.txt | awk '{print $1}') -gt 1 ]]; \
-                  then exit 1; fi
-      - store_artifacts:
-          path: /tmp/missing_files.txt
-          destination: /pika/artifacts/missing_files.txt
-      - store_artifacts:
-          path: /tmp/missing_deps.txt
-          destination: /pika/artifacts/missing_deps.txt
 
   # Ensure that the modules stay clang-formatted
   clang_format:
     <<: *defaults
     steps:
       - attach_workspace:
-          at: /pika
+          at: /pika-algorithms
       - run:
           name: Check that C++ files are well clang-formatted
           command: |
-              cd /pika/source
+              cd /pika-algorithms/source
               # activate the ** globbing
               shopt -s globstar
               # ignore globs that have no matches (e.g. no cu.in files exist
@@ -151,171 +105,123 @@ jobs:
               git diff --exit-code > /tmp/modified_clang_format_files.txt
       - store_artifacts:
           path: /tmp/modified_clang_format_files.txt
-          destination: /pika/artifacts/modified_clang_format_files.txt
+          destination: /pika-algorithms/artifacts/modified_clang_format_files.txt
 
   # Ensure that CMake files stay cmake-formatted
   cmake_format:
     <<: *docker_default
     steps:
       - attach_workspace:
-          at: /pika
+          at: /pika-algorithms
       - run:
           name: Check that CMake files are well cmake-formatted
           command: |
-              cd /pika/source && shopt -s globstar # to activate the ** globbing
+              cd /pika-algorithms/source && shopt -s globstar # to activate the ** globbing
               cmake-format --version
               cmake-format -i **/*.cmake **/CMakeLists.txt
               git diff --exit-code > /tmp/modified_cmake_format_files.txt
       - store_artifacts:
           path: /tmp/modified_cmake_format_files.txt
-          destination: /pika/artifacts/modified_cmake_format_files.txt
+          destination: /pika-algorithms/artifacts/modified_cmake_format_files.txt
 
   # Ensure that Python files stay formatted with black
   python_format:
     <<: *docker_default
     steps:
       - attach_workspace:
-          at: /pika
+          at: /pika-algorithms
       - run:
           name: Check that Python files are correctly formatted with black
           command: |
-              cd /pika/source && shopt -s globstar # to activate the ** globbing
+              cd /pika-algorithms/source && shopt -s globstar # to activate the ** globbing
               black --version
               black **/*.py
               git diff --exit-code > /tmp/modified_black_files.txt
       - store_artifacts:
           path: /tmp/modified_black_files.txt
-          destination: /pika/artifacts/modified_black_files.txt
+          destination: /pika-algorithms/artifacts/modified_black_files.txt
 
   # Ensure that shell scripts stay formatted with shfmt
   shell_format:
     <<: *docker_default
     steps:
       - attach_workspace:
-          at: /pika
+          at: /pika-algorithms
       - run:
           name: Check that shell scripts are correctly formatted with shfmt
           command: |
-              cd /pika/source && shopt -s globstar # to activate the ** globbing
+              cd /pika-algorithms/source && shopt -s globstar # to activate the ** globbing
               shfmt --version
               shfmt -w **/*.sh
               git diff --exit-code > /tmp/modified_black_files.txt
       - store_artifacts:
           path: /tmp/modified_black_files.txt
-          destination: /pika/artifacts/modified_black_files.txt
+          destination: /pika-algorithms/artifacts/modified_black_files.txt
 
   configure:
     <<: *defaults
     steps:
       - attach_workspace:
-          at: /pika
+          at: /pika-algorithms
+      - run:
+          name: Install pika
+          command: |
+            git clone --branch main --single-branch --depth 1 \
+              https://github.com/pika-org/pika.git
+            mkdir pika/build
+            cd pika/build
+            cmake \
+              -GNinja \
+              -DCMAKE_INSTALL_PREFIX=/pika-algorithms/install \
+              -DCMAKE_BUILD_TYPE=Debug \
+              -DPIKA_WITH_MALLOC=system \
+              ..
+            ninja install
       - run:
           name: Running CMake
           command: |
             cmake --version
+            export CMAKE_PREFIX_PATH=/pika-algorithms/install:${CMAKE_PREFIX_PATH}
             cmake \
-                /pika/source \
+                /pika-algorithms/source \
                 -G "Ninja" \
                 -DCMAKE_BUILD_TYPE=Debug \
                 -DCMAKE_CXX_CLANG_TIDY=clang-tidy \
                 -DCMAKE_CXX_FLAGS="-fcolor-diagnostics" \
-                -DPIKA_WITH_GIT_COMMIT=${CIRCLE_SHA1} \
-                -DPIKA_WITH_GIT_BRANCH="${CIRCLE_BRANCH}" \
-                -DPIKA_WITH_GIT_TAG="${CIRCLE_TAG}" \
-                -DPIKA_WITH_CXX_STANDARD=20 \
-                -DPIKA_WITH_PRECOMPILED_HEADERS=On \
-                -DPIKA_WITH_TOOLS=On \
-                -DPIKA_WITH_MALLOC=system \
-                -DPIKA_WITH_MPI=ON \
-                -DPIKA_WITH_P2300_REFERENCE_IMPLEMENTATION=ON \
-                -DPIKA_WITH_EXAMPLES=On \
-                -DPIKA_WITH_TESTS=On \
-                -DPIKA_WITH_TESTS_HEADERS=On \
-                -DPIKA_WITH_PARALLEL_TESTS_BIND_NONE=On \
-                -DPIKA_WITH_COMPILER_WARNINGS=On \
-                -DPIKA_WITH_COMPILER_WARNINGS_AS_ERRORS=On \
-                -DPIKA_WITH_DEPRECATION_WARNINGS=On \
-                -DPIKA_WITH_THREAD_LOCAL_STORAGE=On \
-                -DPIKA_WITH_STACKTRACES_STATIC_SYMBOLS=On \
-                -DPIKA_WITH_STACKTRACES_DEMANGLE_SYMBOLS=Off \
-                -DPIKA_WITH_TESTS_DEBUG_LOG=On \
-                -DPIKA_WITH_TESTS_DEBUG_LOG_DESTINATION=/pika/build/debug-log.txt \
-                -DPIKA_WITH_SPINLOCK_DEADLOCK_DETECTION=On \
-                -DPIKA_WITH_CHECK_MODULE_DEPENDENCIES=On
+                -DPIKA_ALGORITHMS_WITH_GIT_COMMIT=${CIRCLE_SHA1} \
+                -DPIKA_ALGORITHMS_WITH_GIT_BRANCH="${CIRCLE_BRANCH}" \
+                -DPIKA_ALGORITHMS_WITH_GIT_TAG="${CIRCLE_TAG}" \
+                -DPIKA_ALGORITHMS_WITH_PRECOMPILED_HEADERS=On \
+                -DPIKA_ALGORITHMS_WITH_EXAMPLES=On \
+                -DPIKA_ALGORITHMS_WITH_TESTS=On \
+                -DPIKA_ALGORITHMS_WITH_TESTS_HEADERS=On \
+                -DPIKA_ALGORITHMS_WITH_PARALLEL_TESTS_BIND_NONE=On \
+                -DPIKA_ALGORITHMS_WITH_COMPILER_WARNINGS=On \
+                -DPIKA_ALGORITHMS_WITH_COMPILER_WARNINGS_AS_ERRORS=On \
+                -DPIKA_ALGORITHMS_WITH_DEPRECATION_WARNINGS=On \
+                -DPIKA_ALGORITHMS_WITH_TESTS_DEBUG_LOG=On \
+                -DPIKA_ALGORITHMS_WITH_TESTS_DEBUG_LOG_DESTINATION=/pika-algorithms/build/debug-log.txt
       - persist_to_workspace:
-          root: /pika
+          root: /pika-algorithms
           paths:
             - ./build
-
-  configure_test_combinations:
-    <<: *defaults
-    steps:
-      - attach_workspace:
-          at: /pika
-      - run:
-          name: Running CMake with tests on and examples off
-          command: |
-            cmake \
-                /pika/source \
-                -G "Ninja" \
-                -DPIKA_WITH_MALLOC=system \
-                -DPIKA_WITH_TESTS=On \
-                -DPIKA_WITH_EXAMPLES=Off
-            rm -rf *
-      - run:
-          name: Running CMake with tests off and examples on
-          command: |
-            cmake \
-                /pika/source \
-                -G "Ninja" \
-                -DPIKA_WITH_MALLOC=system \
-                -DPIKA_WITH_TESTS=Off \
-                -DPIKA_WITH_EXAMPLES=On
-            rm -rf *
-
-  inspect:
-    <<: *defaults
-    steps:
-      - attach_workspace:
-          at: /pika
-      - run:
-          name: Building Inspect Tool
-          command: |
-              ninja -j4 tools.inspect
-      - run:
-          name: Running Inspect Tool
-          command: |
-              ./bin/inspect --all --output=./pika_inspect_report.html /pika/source
-      - run:
-          name: Convert inspect HTML output to XML
-          command: |
-              mkdir -p /report
-              /pika/source/tools/inspect/inspect_to_junit.py \
-                  ./pika_inspect_report.html \
-                  /report/pika_inspect.xml
-          when: always
-      - store_artifacts:
-          path: pika_inspect_report.html
-          destination: pika_inspect_report.html
-      - store_test_results:
-          path: /report
+            - ./install
 
   inshpect:
     <<: *defaults
     steps:
       - attach_workspace:
-          at: /pika
+          at: /pika-algorithms
       - run:
           name: Running inshpect
           command: |
               export INSHPECT_NUMTHREADS=2
               export INSHPECT_VERBOSE=1
-              # TODO: Currently restricted to libs, remove libs when regular inspect tool is removed
-              inshpect /pika/source/libs /pika/source/.inshpect.toml > \
+              inshpect /pika-algorithms/source /pika-algorithms/source/.inshpect.toml > \
                   inshpect.txt
               res=$?
               INSHPECT_FD="fd --exclude LICENSE_1_0.txt" \
-                  inshpect /pika/source /pika/source/.inshpect-noncpp.toml > \
+                  inshpect /pika-algorithms/source /pika-algorithms/source/.inshpect-noncpp.toml > \
                   inshpect-noncpp.txt
               res_noncpp=$?
               exit $((res + res_noncpp))
@@ -330,12 +236,12 @@ jobs:
     <<: *defaults
     steps:
       - attach_workspace:
-          at: /pika
+          at: /pika-algorithms
       - run:
           name: Running codespell
           command: |
               if [[ -n "$CIRCLE_PULL_REQUEST" ]]; then
-                  cd /pika/source
+                  cd /pika-algorithms/source
                   codespell --version
                   codespell --ignore-words tools/.codespell_whitelist --skip='*.h5,*.png' $(git diff --name-only origin/main...) > /tmp/spelling_suggestions.txt
                   if [ -s /tmp/spelling_suggestions.txt ]; then exit 1; fi
@@ -345,19 +251,19 @@ jobs:
           when: always
       - store_artifacts:
           path: /tmp/spelling_suggestions.txt
-          destination: /pika/artifacts/spelling_suggestions.txt
+          destination: /pika-algorithms/artifacts/spelling_suggestions.txt
 
   core:
     <<: *defaults
     steps:
       - attach_workspace:
-          at: /pika
+          at: /pika-algorithms
       - run:
-          name: Building Core
+          name: Building precompiled headers
           command: |
-              ninja -j4 -k 0 pika
+              ninja pika_algorithms_exe_precompiled_headers
       - persist_to_workspace:
-          root: /pika
+          root: /pika-algorithms
           paths:
             - ./build
 
@@ -365,7 +271,7 @@ jobs:
     <<: *defaults
     steps:
       - attach_workspace:
-          at: /pika
+          at: /pika-algorithms
       - run:
           name: Building Examples
           command: |
@@ -393,111 +299,23 @@ jobs:
       - store_artifacts:
           path: tests.examples
       - persist_to_workspace:
-          root: /pika
+          root: /pika-algorithms
           paths:
             - ./build
-
-  tests.unit.algorithms:
-    <<: *defaults
-    steps:
-      - attach_workspace:
-          at: /pika
-      - run:
-          name: Building Unit Tests (Algorithms)
-          command: |
-              ninja -j4 -k 0 \
-                tests.unit.modules.algorithms.algorithms \
-                tests.unit.modules.algorithms.block
-      - run:
-          name: Running Unit Tests
-          when: always
-          command: |
-              ulimit -c unlimited
-              ctest \
-                -j2 \
-                --timeout 120 \
-                -T test \
-                --no-compress-output \
-                --output-on-failure \
-                --tests-regex \
-              "tests.unit.modules.algorithms.algorithms|\
-              tests.unit.modules.algorithms.block"
-      - run:
-          <<: *convert_xml
-      - run:
-          <<: *move_core_dump
-      - run:
-          <<: *move_debug_log
-      - store_test_results:
-          path: tests.unit.algorithms
-      - store_artifacts:
-          path: tests.unit.algorithms
-
-  tests.unit.container_algorithms:
-    <<: *defaults
-    steps:
-      - attach_workspace:
-          at: /pika
-      - run:
-          name: Building Unit Tests (Container algorithms)
-          command: |
-              ninja -j4 -k 0 \
-                tests.unit.modules.algorithms.container_algorithms
-      - run:
-          name: Running Unit Tests
-          when: always
-          command: |
-              ulimit -c unlimited
-              ctest \
-                -j2 \
-                --timeout 120 \
-                -T test \
-                --no-compress-output \
-                --output-on-failure \
-                --tests-regex \
-              "tests.unit.modules.algorithms.container_algorithms"
-      - run:
-          <<: *convert_xml
-      - run:
-          <<: *move_core_dump
-      - run:
-          <<: *move_debug_log
-      - store_test_results:
-          path: tests.unit.container_algorithms
-      - store_artifacts:
-          path: tests.unit.container_algorithms
 
   tests.unit:
     <<: *defaults
     steps:
       - attach_workspace:
-          at: /pika
+          at: /pika-algorithms
       - run:
           name: Building Unit Tests
           command: |
-              # Include all unit tests except algorithms by filtering the output
-              # from the help target
-              ninja -j4 -k 0 \
-                $(ninja help | grep '^tests.unit.modules\.' | grep -v '^tests.unit.modules.algorithms' | awk -F':' '{ print $1 }')
+              ninja -j4 -k 0 tests.unit
       - run:
           name: Running Unit Tests
           when: always
           command: |
-              # We are certain that we want to run mpiexec as root despite
-              # warnings as that is the only user available in the container.
-              # Mistakes will only affect the current step.
-              export OMPI_ALLOW_RUN_AS_ROOT=1
-              export OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1
-
-              # The glibc tcache _may_ be causing issues with the
-              # std_thread_scheduler test. See
-              # https://github.com/pika-org/pika/pull/250#issuecomment-1150765258
-              # for more details and links. This is disabled to check if it has
-              # a noticeable effect on the error rate in the test. This should
-              # be revisited to see if newer versions of glibc can do without
-              # disabling this.
-              export GLIBC_TUNABLES=glibc.malloc.tcache_count=0
-
               ulimit -c unlimited
               ctest \
                 -j2 \
@@ -505,10 +323,7 @@ jobs:
                 -T test \
                 --no-compress-output \
                 --output-on-failure \
-                --tests-regex tests.unit \
-                --exclude-regex \
-              "tests.unit.modules.algorithms|\
-              tests.unit.modules.resource_partitioner.scheduler_binding_check"
+                --tests-regex tests.unit
       - run:
           <<: *convert_xml
       - run:
@@ -524,7 +339,7 @@ jobs:
     <<: *defaults
     steps:
       - attach_workspace:
-          at: /pika
+          at: /pika-algorithms
       - run:
           name: Building Regressions Tests
           command: |
@@ -555,7 +370,7 @@ jobs:
     <<: *defaults
     steps:
       - attach_workspace:
-          at: /pika
+          at: /pika-algorithms
       - run:
           name: Building Header Tests
           command: |
@@ -577,7 +392,7 @@ jobs:
     <<: *defaults
     steps:
       - attach_workspace:
-          at: /pika
+          at: /pika-algorithms
       - run:
           name: Building Performance Tests
           command: |
@@ -587,33 +402,35 @@ jobs:
     <<: *docker_default
     steps:
       - attach_workspace:
-          at: /pika
+          at: /pika-algorithms
       - run:
           name: Installing
           command: |
               ./bin/hello_world --pika:bind=none
               ninja -j4 install
-          working_directory: /pika/build
+          working_directory: /pika-algorithms/build
           when: always
           no_output_timeout: 30m
       - run:
           name: Testing build unit tests
           command: |
               ninja -j4 tests.unit.build
-          working_directory: /pika/build
+          working_directory: /pika-algorithms/build
           when: always
       - run:
-          name: Testing installed pika
+          name: Testing installed pika-algorithms
           command: |
+              export LD_LIBRARY_PATH=/pika-algorithms/install/lib:$LD_LIBRARY_PATH
+              ldconfig
               hello_world --pika:bind=none
-          working_directory: /pika/build
+          working_directory: /pika-algorithms/build
           when: always
 
   arm64_build:
     <<: *setup_arm64_machine
     steps:
       - checkout:
-          path: pika
+          path: pika-algorithms
       - run:
           name: Setup dependencies Arm64
           command: |
@@ -627,7 +444,7 @@ jobs:
               sudo tar --strip-components=1 -C /usr/local -xf cmake.tar.gz && \
               rm cmake.tar.gz
             cmake --version
-            # Install pika dependencies
+            # Install pika-algorithms dependencies
             sudo apt install -y \
               clang \
               ninja-build \
@@ -644,44 +461,45 @@ jobs:
                 -DBUILD_SHARED_LIBS=ON \
                 -DCMAKE_INSTALL_PREFIX=$HOME/project/install/fmt . && \
               ninja install)
-            mkdir build
+            export CMAKE_PREFIX_PATH=$HOME/project/install/fmt:${CMAKE_PREFIX_PATH}
+            git clone --branch main --single-branch --depth 1 \
+              https://github.com/pika-org/pika.git
+            mkdir pika/build
+            (cd pika/build &&
+              cmake \
+                -GNinja \
+                -DCMAKE_INSTALL_PREFIX=$HOME/project/install/pika \
+                -DCMAKE_CXX_COMPILER=clang++ \
+                -DCMAKE_BUILD_TYPE=Debug \
+                -DPIKA_WITH_MALLOC=system \
+                .. && \
+              ninja install)
       - run:
-          name: Configuring pika Arm64
+          name: Configuring pika-algorithms Arm64
           command: |
             export CMAKE_PREFIX_PATH=$HOME/project/install/fmt:${CMAKE_PREFIX_PATH}
+            export CMAKE_PREFIX_PATH=$HOME/project/install/pika:${CMAKE_PREFIX_PATH}
+            mkdir build
             cmake \
-                ./pika \
+                ./pika-algorithms \
                 -Bbuild \
                 -G "Ninja" \
                 -DCMAKE_BUILD_TYPE=Debug \
                 -DCMAKE_CXX_COMPILER=clang++ \
                 -DCMAKE_CXX_FLAGS="-fcolor-diagnostics" \
-                -DPIKA_WITH_GIT_COMMIT=${CIRCLE_SHA1} \
-                -DPIKA_WITH_GIT_BRANCH="${CIRCLE_BRANCH}" \
-                -DPIKA_WITH_GIT_TAG="${CIRCLE_TAG}" \
-                -DPIKA_WITH_CXX_STANDARD=17 \
-                -DPIKA_WITH_PRECOMPILED_HEADERS=On \
-                -DPIKA_WITH_TOOLS=On \
-                -DPIKA_WITH_MALLOC=system \
-                -DPIKA_WITH_MPI=ON \
-                -DPIKA_WITH_EXAMPLES=On \
-                -DPIKA_WITH_TESTS=On \
-                -DPIKA_WITH_TESTS_HEADERS=On \
-                -DPIKA_WITH_PARALLEL_TESTS_BIND_NONE=On \
-                -DPIKA_WITH_COMPILER_WARNINGS=On \
-                -DPIKA_WITH_COMPILER_WARNINGS_AS_ERRORS=On \
-                -DPIKA_WITH_DEPRECATION_WARNINGS=On \
-                -DPIKA_WITH_THREAD_LOCAL_STORAGE=On \
-                -DPIKA_WITH_STACKTRACES_STATIC_SYMBOLS=On \
-                -DPIKA_WITH_STACKTRACES_DEMANGLE_SYMBOLS=Off \
-                -DPIKA_WITH_TESTS_DEBUG_LOG=On \
-                -DPIKA_WITH_TESTS_DEBUG_LOG_DESTINATION=$HOME/project/build/debug-log.txt \
-                -DPIKA_WITH_SPINLOCK_DEADLOCK_DETECTION=On
-      - run:
-          name: Building pika Arm64
-          command: |
-            cd build
-            ninja -k 0 pika
+                -DPIKA_ALGORITHMS_WITH_GIT_COMMIT=${CIRCLE_SHA1} \
+                -DPIKA_ALGORITHMS_WITH_GIT_BRANCH="${CIRCLE_BRANCH}" \
+                -DPIKA_ALGORITHMS_WITH_GIT_TAG="${CIRCLE_TAG}" \
+                -DPIKA_ALGORITHMS_WITH_PRECOMPILED_HEADERS=On \
+                -DPIKA_ALGORITHMS_WITH_EXAMPLES=On \
+                -DPIKA_ALGORITHMS_WITH_TESTS=On \
+                -DPIKA_ALGORITHMS_WITH_TESTS_HEADERS=On \
+                -DPIKA_ALGORITHMS_WITH_PARALLEL_TESTS_BIND_NONE=On \
+                -DPIKA_ALGORITHMS_WITH_COMPILER_WARNINGS=On \
+                -DPIKA_ALGORITHMS_WITH_COMPILER_WARNINGS_AS_ERRORS=On \
+                -DPIKA_ALGORITHMS_WITH_DEPRECATION_WARNINGS=On \
+                -DPIKA_ALGORITHMS_WITH_TESTS_DEBUG_LOG=On \
+                -DPIKA_ALGORITHMS_WITH_TESTS_DEBUG_LOG_DESTINATION=$HOME/project/build/debug-log.txt
       - run:
           name: Building tests Arm64
           command: |
@@ -719,12 +537,6 @@ workflows:
   build-and-test:
     jobs:
       - checkout_code
-      - check_circular_deps:
-          requires:
-            - checkout_code
-      - check_module_cmakelists:
-          requires:
-            - checkout_code
       - clang_format:
           requires:
             - checkout_code
@@ -740,30 +552,17 @@ workflows:
       - configure:
           requires:
             - checkout_code
-      - configure_test_combinations:
-          requires:
-            - checkout_code
       - spellcheck:
           requires:
             - checkout_code
       - inshpect:
           requires:
             - checkout_code
-      - inspect:
-          requires:
-            - core
-            - configure
       - core:
           <<: *branch_filter
           requires:
             - configure
       - tests.examples:
-          <<: *branch_filter
-          <<: *core_dependency
-      - tests.unit.algorithms:
-          <<: *branch_filter
-          <<: *core_dependency
-      - tests.unit.container_algorithms:
           <<: *branch_filter
           <<: *core_dependency
       - tests.unit:
@@ -781,10 +580,7 @@ workflows:
       - install:
           <<: *branch_filter
           requires:
-            - core
             - tests.examples
-            - tests.unit.algorithms
-            - tests.unit.container_algorithms
             - tests.unit
             - tests.regressions
             - tests.performance

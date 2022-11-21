@@ -7,9 +7,11 @@
 set(testing_sources testing.cpp)
 list(TRANSFORM testing_sources PREPEND src/ OUTPUT_VARIABLE testing_sources)
 
-add_library(pika_testing SHARED ${testing_sources})
+add_library(pika_algorithms_testing SHARED ${testing_sources})
 target_include_directories(
-  pika_testing PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include
+  pika_algorithms_testing PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
-target_link_libraries(pika_testing PRIVATE pika_private_flags)
-target_link_libraries(pika_testing PUBLIC pika::pika)
+target_link_libraries(
+  pika_algorithms_testing PRIVATE pika_algorithms_private_flags
+)
+target_link_libraries(pika_algorithms_testing PUBLIC pika::pika)

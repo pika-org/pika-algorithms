@@ -6,8 +6,8 @@
     Distributed under the Boost Software License, Version 1.0. (See accompanying
     file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-Release procedure for pika
-==========================
+Release procedure for pika-algorithms
+=====================================
 
 The current target is to produce a new (minor) release once a month.
 
@@ -21,22 +21,22 @@ pika follows `Semantic Versioning <https://semver.org>`_.
 
 #. Write release notes in ``CHANGELOG.md``.
 
-#. Make sure ``PIKA_VERSION_MAJOR/MINOR/PATCH`` in ``CMakeLists.txt`` contain
-   the correct values. Change them if needed.
+#. Make sure ``PIKA_ALGORITHMS_VERSION_MAJOR/MINOR/PATCH`` in ``CMakeLists.txt``
+   contain the correct values. Change them if needed.
 
 #. When making a post-1.0.0 major release, remove deprecated functionality if
    appropriate.
 
 #. Update the minimum required versions if necessary.
 
-#. Check that projects dependent on pika are passing CI with pika main branch.
-   Check if there is no performance regressions due to the pika upgrade in
-   those projects.
+#. Check that projects dependent on pika-algorithms are passing CI with
+   pika-algorithms main branch.  Check if there is no performance regressions
+   due to the pika-algorithms upgrade in those projects.
 
 #. Repeat the following steps until satisfied with the release.
 
-   #. Change ``PIKA_VERSION_TAG`` in ``CMakeLists.txt`` to ``-rcN``, where ``N``
-      is the current iteration of this step. Start with ``-rc1``.
+   #. Change ``PIKA_ALGORITHMS_VERSION_TAG`` in ``CMakeLists.txt`` to ``-rcN``,
+      where ``N`` is the current iteration of this step. Start with ``-rc1``.
 
    #. Create a pre-release on GitHub using the script ``tools/roll_release.sh``.
       This script automatically tags with the corresponding release number.
@@ -44,10 +44,11 @@ pika follows `Semantic Versioning <https://semver.org>`_.
    #. Add patches as needed to the release candidate until the next release
       candidate, or the final release.
 
-#. Change ``PIKA_VERSION_TAG`` in ``CMakeLists.txt`` to an empty string.
+#. Change ``PIKA_ALGORITHMS_VERSION_TAG`` in ``CMakeLists.txt`` to an empty
+   string.
 
 #. Add the release date to the caption of the current ``CHANGELOG.md`` section
-   and change the value of ``PIKA_VERSION_DATE`` in ``CMakeLists.txt``.
+   and change the value of ``PIKA_ALGORITHMS_VERSION_DATE`` in ``CMakeLists.txt``.
 
 #. Create a release on GitHub using the script ``tools/roll_release.sh``. This
    script automatically tags the release with the corresponding release number.
@@ -59,7 +60,7 @@ pika follows `Semantic Versioning <https://semver.org>`_.
 
 #. Modify the release procedure if necessary.
 
-#. Change ``PIKA_VERSION_TAG`` in ``CMakeLists.txt`` back to ``-trunk``.
+#. Change ``PIKA_ALGORITHMS_VERSION_TAG`` in ``CMakeLists.txt`` back to ``-trunk``.
 
 #. Update spack (``https://github.com/spack/spack``).
 

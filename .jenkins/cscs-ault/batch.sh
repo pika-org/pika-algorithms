@@ -11,13 +11,13 @@ set -eux
 # Make the name of the directories unique otherwise directories are removed by
 # another job
 orig_src_dir="$(pwd)"
-pika_dir="/dev/shm/pika"
-src_dir="${pika_dir}/src_${job_name}"
-build_dir="${pika_dir}/build_${job_name}"
-install_dir="${pika_dir}/install_${job_name}"
+pika_algorithms_dir="/dev/shm/pika-algorithms"
+src_dir="${pika_algorithms_dir}/src_${job_name}"
+build_dir="${pika_algorithms_dir}/build_${job_name}"
+install_dir="${pika_algorithms_dir}/install_${job_name}"
 
 # Clean up directories older than 4 days, find fails if dir does not exist
-test -d ${pika_dir} && find ${pika_dir} -mindepth 1 -type d -ctime +4 -exec rm -rf {} \; 2> /dev/null
+test -d ${pika_algorithms_dir} && find ${pika_algorithms_dir} -mindepth 1 -type d -ctime +4 -exec rm -rf {} \; 2> /dev/null
 
 rm -rf "${src_dir}" "${build_dir}"
 # Copy source directory to /dev/shm for faster builds

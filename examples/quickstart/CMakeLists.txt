@@ -6,49 +6,15 @@
 # file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
 set(example_programs
-    composable_guard
-    customize_async
-    disable_thread_stealing_executor
-    enumerate_threads
-    event_synchronization
-    executor_with_thread_hooks
-    fibonacci_await
-    fibonacci_dataflow
-    fibonacci_futures
-    fibonacci
-    hello_world
-    latch_example # suffix added to avoid conflict with unit tests
-    channel_example # suffix added to avoid conflict with unit tests
-    channel_docs
-    matrix_multiplication
-    pipeline1
-    potpourri
-    safe_object
-    # shared_mutex # Disabled due to unavailable timed suspension
-    simple_future_continuation
-    # timed_futures # Disabled due to unavailable timed suspension timed_wake #
-    # Disabled due to unavailable timed suspension
-    use_main_thread
-    vector_counting_dotproduct
-    vector_zip_dotproduct
-    wait_composition
+    disable_thread_stealing_executor hello_world matrix_multiplication
+    potpourri vector_counting_dotproduct vector_zip_dotproduct
 )
 
-# TODO: These examples currently fail. Disabled until they are fixed.
-set(disabled_tests fibonacci_await)
-
-set(customize_async_PARAMETERS THREADS 4)
-set(enumerate_threads_PARAMETERS THREADS 4)
-set(event_synchronization_PARAMETERS THREADS 4)
-set(hello_world_PARAMETERS THREADS 4)
-set(channel_PARAMETERS THREADS 4)
-set(simple_future_continuation_PARAMETERS THREADS 4)
-set(timed_futures_PARAMETERS THREADS 4)
 set(vector_counting_dotproduct_PARAMETERS THREADS 4)
 set(vector_zip_dotproduct_PARAMETERS THREADS 4)
 
 # the following example fails compiling on someversions of MSVC
-if(PIKA_WITH_TUPLE_RVALUE_SWAP AND (NOT MSVC))
+if(PIKA_ALGORITHMS_WITH_TUPLE_RVALUE_SWAP AND (NOT MSVC))
   list(APPEND example_programs sort_by_key_demo)
 endif()
 
@@ -57,8 +23,7 @@ foreach(example_program ${example_programs})
 
   source_group("Source Files" FILES ${sources})
 
-  # add example executable
-  pika_add_executable(
+  pika_algorithms_add_executable(
     ${example_program} INTERNAL_FLAGS
     SOURCES ${sources} ${${example_program}_FLAGS}
     FOLDER "Examples/Quickstart"
@@ -67,13 +32,12 @@ foreach(example_program ${example_programs})
   target_link_libraries(
     ${example_program} PRIVATE ${${example_program}_LIBRARIES}
   )
-  pika_add_example_target_dependencies("quickstart" ${example_program})
-
-  if(PIKA_WITH_TESTS
-     AND PIKA_WITH_TESTS_EXAMPLES
-     AND NOT ("${example_program}" IN_LIST disabled_tests)
+  pika_algorithms_add_example_target_dependencies(
+    "quickstart" ${example_program}
   )
-    pika_add_example_test(
+
+  if(PIKA_ALGORITHMS_WITH_TESTS AND PIKA_ALGORITHMS_WITH_TESTS_EXAMPLES)
+    pika_algorithms_add_example_test(
       "quickstart" ${example_program} ${${example_program}_PARAMETERS}
     )
   endif()

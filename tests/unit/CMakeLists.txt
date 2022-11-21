@@ -5,12 +5,16 @@
 # Distributed under the Boost Software License, Version 1.0. (See accompanying
 # file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-set(subdirs build)
+set(subdirs algorithms block build container_algorithms)
+
+if(PIKA_ALGORITHMS_WITH_STD_EXPERIMENTAL_SIMD)
+  list(APPEND subdirs datapar_algorithms)
+endif()
 
 foreach(subdir ${subdirs})
   if(NOT TARGET tests.unit.${subdir})
-    pika_add_pseudo_target(tests.unit.${subdir})
+    pika_algorithms_add_pseudo_target(tests.unit.${subdir})
   endif()
   add_subdirectory(${subdir})
-  pika_add_pseudo_dependencies(tests.unit tests.unit.${subdir})
+  pika_algorithms_add_pseudo_dependencies(tests.unit tests.unit.${subdir})
 endforeach()
