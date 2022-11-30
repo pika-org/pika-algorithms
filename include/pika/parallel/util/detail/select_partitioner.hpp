@@ -44,7 +44,7 @@ namespace pika::parallel::detail {
             Args...>;
     };
 
-#if defined(PIKA_HAVE_DATAPAR)
+#if defined(PIKA_ALGORITHMS_HAVE_DATAPAR)
     template <template <typename...> class Partitioner,
         template <typename...> class TaskPartitioner>
     struct select_partitioner<pika::execution::par_simd_task_policy,

@@ -8,7 +8,7 @@
 
 #include <pika/config.hpp>
 
-#if defined(PIKA_HAVE_DATAPAR)
+#if defined(PIKA_ALGORITHMS_HAVE_DATAPAR)
 
 #include <pika/iterator_support/traits/is_iterator.hpp>
 #include <pika/iterator_support/zip_iterator.hpp>

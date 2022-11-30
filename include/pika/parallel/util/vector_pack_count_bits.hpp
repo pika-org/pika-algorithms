@@ -18,7 +18,7 @@ namespace pika::parallel::traits::detail {
     }
 }    // namespace pika::parallel::traits::detail
 
-#if defined(PIKA_HAVE_DATAPAR)
+#if defined(PIKA_ALGORITHMS_HAVE_DATAPAR)
 
 #if !defined(__CUDACC__)
 #include <pika/parallel/util/detail/simd/vector_pack_count_bits.hpp>

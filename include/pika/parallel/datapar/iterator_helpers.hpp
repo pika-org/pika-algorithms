@@ -8,7 +8,7 @@
 
 #include <pika/config.hpp>
 
-#if defined(PIKA_HAVE_DATAPAR)
+#if defined(PIKA_ALGORITHMS_HAVE_DATAPAR)
 #include <pika/assert.hpp>
 #include <pika/functional/detail/invoke.hpp>
 #include <pika/functional/invoke_result.hpp>

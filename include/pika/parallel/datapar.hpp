@@ -9,7 +9,7 @@
 
 #include <pika/config.hpp>
 
-#if defined(PIKA_HAVE_DATAPAR)
+#if defined(PIKA_ALGORITHMS_HAVE_DATAPAR)
 
 #include <pika/executors/datapar/execution_policy.hpp>
 #include <pika/parallel/datapar/adjacent_difference.hpp>
