@@ -63,13 +63,17 @@ jobs:
     - name: Build
       shell: bash
       run: |
-          cmake --build build --target tests
+          # TODO: build all tests
+          #cmake --build build --target tests
+          cd build
+          ninja $(ninja help | grep for_each | cut -f1 -d:)
     - name: Test
       shell: bash
       working-directory: build
       continue-on-error: true
       run: |
-          ctest -j2 --timeout 120 --output-on-failure
+          # TODO: remove -R for_each
+          ctest -j2 --timeout 120 --output-on-failure -R for_each
     - name: Upload coverage report
       shell: bash
       working-directory: build
