@@ -30,6 +30,27 @@ jobs:
       uses: hendrikmuhs/ccache-action@v1.2
       with:
         key: ccache-linux-sanitizers
+    - name: Check out pika
+      uses: actions/checkout@v3
+      with:
+        repository: pika-org/pika
+        ref: main
+        path: pika
+    - name: Install pika
+      shell: bash
+      working-directory: pika
+      run: |
+          cmake \
+              . \
+              -Bbuild \
+              -GNinja \
+              -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
+              -DCMAKE_BUILD_TYPE=Debug \
+              -DPIKA_WITH_MALLOC=system \
+              -DPIKA_WITH_SANITIZERS=On \
+              -DPIKA_WITH_STACKOVERFLOW_DETECTION=Off \
+              -DCMAKE_CXX_FLAGS="-fsanitize=address -fsanitize=undefined -fno-omit-frame-pointer"
+          cmake --build build --target install
     - name: Configure
       shell: bash
       run: |
@@ -39,18 +60,14 @@ jobs:
               -GNinja \
               -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
               -DCMAKE_BUILD_TYPE=Debug \
-              -DPIKA_WITH_UNITY_BUILD=ON \
-              -DPIKA_WITH_MALLOC=system \
-              -DPIKA_WITH_EXAMPLES=ON \
-              -DPIKA_WITH_TESTS=ON \
-              -DPIKA_WITH_TESTS_EXAMPLES=ON \
-              -DPIKA_WITH_TESTS_MAX_THREADS=2 \
-              -DPIKA_WITH_COMPILER_WARNINGS=ON \
-              -DPIKA_WITH_COMPILER_WARNINGS_AS_ERRORS=ON \
-              -DPIKA_WITH_SANITIZERS=On \
-              -DCMAKE_CXX_FLAGS="-fsanitize=address -fsanitize=undefined -fno-omit-frame-pointer" \
-              -DPIKA_WITH_STACKOVERFLOW_DETECTION=Off \
-              -DPIKA_WITH_CHECK_MODULE_DEPENDENCIES=On
+              -DPIKA_ALGORITHMS_WITH_EXAMPLES=ON \
+              -DPIKA_ALGORITHMS_WITH_TESTS=ON \
+              -DPIKA_ALGORITHMS_WITH_TESTS_EXAMPLES=ON \
+              -DPIKA_ALGORITHMS_WITH_TESTS_MAX_THREADS=2 \
+              -DPIKA_ALGORITHMS_WITH_COMPILER_WARNINGS=ON \
+              -DPIKA_ALGORITHMS_WITH_COMPILER_WARNINGS_AS_ERRORS=ON \
+              -DPIKA_ALGORITHMS_WITH_SANITIZERS=On \
+              -DCMAKE_CXX_FLAGS="-fsanitize=address -fsanitize=undefined -fno-omit-frame-pointer"
     - name: Build
       shell: bash
       run: |

@@ -12,13 +12,13 @@
 
 set -o errexit
 
-VERSION_MAJOR=$(sed -n 's/set(PIKA_VERSION_MAJOR \(.*\))/\1/p' CMakeLists.txt)
-VERSION_MINOR=$(sed -n 's/set(PIKA_VERSION_MINOR \(.*\))/\1/p' CMakeLists.txt)
-VERSION_PATCH=$(sed -n 's/set(PIKA_VERSION_PATCH \(.*\))/\1/p' CMakeLists.txt)
-VERSION_TAG=$(sed -n 's/set(PIKA_VERSION_TAG "\(.*\)")/\1/p' CMakeLists.txt)
+VERSION_MAJOR=$(sed -n 's/set(PIKA_ALGORITHMS_VERSION_MAJOR \(.*\))/\1/p' CMakeLists.txt)
+VERSION_MINOR=$(sed -n 's/set(PIKA_ALGORITHMS_VERSION_MINOR \(.*\))/\1/p' CMakeLists.txt)
+VERSION_PATCH=$(sed -n 's/set(PIKA_ALGORITHMS_VERSION_PATCH \(.*\))/\1/p' CMakeLists.txt)
+VERSION_TAG=$(sed -n 's/set(PIKA_ALGORITHMS_VERSION_TAG "\(.*\)")/\1/p' CMakeLists.txt)
 VERSION_FULL_NOTAG=${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}
 VERSION_FULL_TAG=${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}${VERSION_TAG}
-VERSION_TITLE="pika ${VERSION_FULL_NOTAG}"
+VERSION_TITLE="pika-algorithms ${VERSION_FULL_NOTAG}"
 CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 
 if ! which hub >/dev/null 2>&1; then

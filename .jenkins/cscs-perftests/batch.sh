@@ -17,15 +17,15 @@ status_computation_and_artifacts_storage() {
     cp -r "${build_dir}/Testing" "${orig_src_dir}/${configuration_name}-Testing"
     cp -r "${build_dir}/reports" "${orig_src_dir}/${configuration_name}-reports"
 
-    echo "${ctest_status}" >"jenkins-pika-${configuration_name}-ctest-status.txt"
+    echo "${ctest_status}" >"jenkins-pika-algorithms-${configuration_name}-ctest-status.txt"
     exit $ctest_status
 }
 
 trap "status_computation_and_artifacts_storage" EXIT
 
 orig_src_dir="$(pwd)"
-src_dir="/dev/shm/pika/src"
-build_dir="/dev/shm/pika/build"
+src_dir="/dev/shm/pika-algorithms/src"
+build_dir="/dev/shm/pika-algorithms/build"
 
 mkdir -p ${build_dir}/tools
 # Copy source directory to /dev/shm for faster builds and copy the perftest
@@ -36,7 +36,7 @@ cp -r "${orig_src_dir}" "${src_dir}" && \
 # Variables
 perftests_dir=${build_dir}/tools/perftests_ci
 mkdir -p ${build_dir}/reports
-logfile=${build_dir}/reports/jenkins-pika-${configuration_name}.log
+logfile=${build_dir}/reports/jenkins-pika-algorithms-${configuration_name}.log
 
 # Load python packages
 source /apps/daint/SSL/pika/virtual_envs/perftests_env/bin/activate

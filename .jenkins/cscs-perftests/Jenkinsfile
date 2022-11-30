@@ -28,7 +28,7 @@ pipeline {
     stages {
         stage('checkout') {
             steps {
-                dir('pika') {
+                dir('pika-algorithms') {
                     sh '''
                     #!/bin/bash -l
                     rm -rf *
@@ -52,7 +52,7 @@ pipeline {
                 stages {
                     stage('perftests') {
                         steps {
-                            dir('pika') {
+                            dir('pika-algorithms') {
                                 sh '''
                                 #!/bin/bash -l
                                 .jenkins/cscs-perftests/entry.sh
@@ -67,9 +67,9 @@ pipeline {
 
     post {
         always {
-            archiveArtifacts artifacts: 'pika/jenkins-pika-*', fingerprint: true
-            archiveArtifacts artifacts: 'pika/*-Testing/**', fingerprint: true
-            archiveArtifacts artifacts: 'pika/*-reports/**', fingerprint: true
+            archiveArtifacts artifacts: 'pika-algorithms/jenkins-pika-algorithms-*', fingerprint: true
+            archiveArtifacts artifacts: 'pika-algorithms/*-Testing/**', fingerprint: true
+            archiveArtifacts artifacts: 'pika-algorithms/*-reports/**', fingerprint: true
         }
     }
 }

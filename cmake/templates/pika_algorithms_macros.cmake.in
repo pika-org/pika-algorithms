@@ -1,0 +1,65 @@
+# Copyright (c) 2014 Thomas Heller
+# Copyright (c) 2015 Andreas Schaefer
+# Copyright (c) 2019 Patrick Diehl
+#
+# SPDX-License-Identifier: BSL-1.0
+# Distributed under the Boost Software License, Version 1.0. (See accompanying
+# file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "@PIKA_ALGORITHMS_CMAKE_MODULE_PATH@")
+
+include(GNUInstallDirs)
+include(pika_algorithms_utils)
+
+function(pika_algorithms_check_compiler_compatibility)
+  if(PIKA_ALGORITHMS_IGNORE_COMPILER_COMPATIBILITY)
+    return()
+  endif()
+
+  if(PIKA_ALGORITHMS_WITH_BUILD_BINARY_PACKAGE)
+    string(REGEX MATCH "[0-9]+" PIKA_ALGORITHMS_MAJOR_VERSION "${PIKA_ALGORITHMS_CXX_COMPILER_VERSION}")
+    string(REGEX MATCH "[0-9]+" CXX_MAJOR_VERSION "${CMAKE_CXX_COMPILER_VERSION}")
+
+    if(NOT (${CMAKE_CXX_COMPILER_ID} STREQUAL ${PIKA_ALGORITHMS_CXX_COMPILER_ID} AND
+      ${PIKA_ALGORITHMS_MAJOR_VERSION} STREQUAL ${CXX_MAJOR_VERSION}))
+      set(MESSAGE "Compilers do not match. In order to compile pika application it is"
+          " recommended to use the same major version of the compiler as you did for pika. "
+          "PIKA_ALGORITHMS_CXX_COMPILER=${PIKA_ALGORITHMS_CXX_COMPILER}, "
+          "CMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}. "
+          "PIKA_ALGORITHMS_CXX_COMPILER_ID=${PIKA_ALGORITHMS_CXX_COMPILER_ID}, "
+          "CMAKE_CXX_COMPILER_ID=${CMAKE_CXX_COMPILER_ID}. "
+          "PIKA_ALGORITHMS_CXX_MAJOR_VERSION=${PIKA_ALGORITHMS_MAJOR_VERSION}, "
+          "CMAKE_CXX_COMPILER_VERSION=${CXX_MAJOR_VERSION}."
+          "To disable this message set PIKA_ALGORITHMS_IGNORE_COMPILER_COMPATIBILITY to On.")
+
+      if(PIKA_ALGORITHMS_FIND_REQUIRED)
+        pika_algorithms_error("${MESSAGE}")
+      else()
+        pika_algorithms_warn("${MESSAGE}")
+        set(${CMAKE_FIND_PACKAGE_NAME}_NOT_FOUND_MESSAGE "${MESSAGE}" PARENT_SCOPE)
+        set(${CMAKE_FIND_PACKAGE_NAME}_FOUND False PARENT_SCOPE)
+      endif()
+    endif()
+  else()
+    if(NOT (${CMAKE_CXX_COMPILER_ID} STREQUAL ${PIKA_ALGORITHMS_CXX_COMPILER_ID} AND
+      ${CMAKE_CXX_COMPILER_VERSION} STREQUAL ${PIKA_ALGORITHMS_CXX_COMPILER_VERSION}))
+      set(MESSAGE "Compilers do not match. In order to compile pika application it is"
+          " recommended to use the same compiler as you did for pika. "
+          "PIKA_ALGORITHMS_CXX_COMPILER=${PIKA_ALGORITHMS_CXX_COMPILER}, "
+          "CMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}. "
+          "PIKA_ALGORITHMS_CXX_COMPILER_ID=${PIKA_ALGORITHMS_CXX_COMPILER_ID}, "
+          "CMAKE_CXX_COMPILER_ID=${CMAKE_CXX_COMPILER_ID}. "
+          "PIKA_ALGORITHMS_CXX_COMPILER_VERSION=${PIKA_ALGORITHMS_CXX_COMPILER_VERSION}, "
+          "CMAKE_CXX_COMPILER_VERSION=${CMAKE_CXX_COMPILER_VERSION}."
+          "To disable this message set PIKA_ALGORITHMS_IGNORE_COMPILER_COMPATIBILITY to On.")
+
+      if(PIKA_ALGORITHMS_FIND_REQUIRED)
+        pika_algorithms_error("${MESSAGE}")
+      else()
+        pika_algorithms_warn("${MESSAGE}")
+        set(${CMAKE_FIND_PACKAGE_NAME}_NOT_FOUND_MESSAGE "${MESSAGE}" PARENT_SCOPE)
+        set(${CMAKE_FIND_PACKAGE_NAME}_FOUND False PARENT_SCOPE)
+      endif()
+    endif()
+  endif()
+endfunction()

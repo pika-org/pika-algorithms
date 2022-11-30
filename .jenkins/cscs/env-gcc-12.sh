@@ -8,13 +8,12 @@ cxx_std="20"
 gcc_version="12.1.0"
 boost_version="1.79.0"
 hwloc_version="2.7.0"
+pika_version="main"
 spack_compiler="gcc@${gcc_version}"
 spack_arch="cray-cnl7-broadwell"
 
-spack_spec="pika@main arch=${spack_arch} %${spack_compiler} malloc=system cxxstd=${cxx_std} ^boost@${boost_version} ^hwloc@${hwloc_version}"
+spack_spec="pika-algorithms@main arch=${spack_arch} %${spack_compiler} cxxstd=${cxx_std} ^pika@${pika_version} malloc=system ^boost@${boost_version} ^hwloc@${hwloc_version}"
 
-configure_extra_options+=" -DPIKA_WITH_CXX_STANDARD=${cxx_std}"
-configure_extra_options+=" -DPIKA_WITH_MALLOC=system"
-configure_extra_options+=" -DPIKA_WITH_SPINLOCK_DEADLOCK_DETECTION=ON"
+configure_extra_options+=" -DPIKA_ALGORITHMS_WITH_CXX_STANDARD=${cxx_std}"
 
 build_extra_options+=" -j10"

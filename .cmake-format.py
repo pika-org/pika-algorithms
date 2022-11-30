@@ -213,7 +213,7 @@ with section("parse"):
     #     'cmake-genparsers -f python cmake/pika*.cmake'
     #
     additional_commands = {
-        "pika_add_compile_test": {
+        "pika_algorithms_add_compile_test": {
             "kwargs": {
                 "DEPENDENCIES": "+",
                 "FOLDER": 1,
@@ -222,7 +222,7 @@ with section("parse"):
             },
             "pargs": {"flags": ["FAILURE_EXPECTED", "NOLIBS"], "nargs": "2+"},
         },
-        "pika_add_compile_test_target_dependencies": {
+        "pika_algorithms_add_compile_test_target_dependencies": {
             "kwargs": {
                 "DEPENDENCIES": "+",
                 "FOLDER": 1,
@@ -231,7 +231,7 @@ with section("parse"):
             },
             "pargs": {"flags": ["FAILURE_EXPECTED", "NOLIBS"], "nargs": "2+"},
         },
-        "pika_add_config_test": {
+        "pika_algorithms_add_config_test": {
             "kwargs": {
                 "ARGS": "+",
                 "CMAKECXXFEATURE": 1,
@@ -246,12 +246,12 @@ with section("parse"):
             },
             "pargs": {"flags": ["FILE", "EXECUTE"], "nargs": "1+"},
         },
-        "pika_add_example_target_dependencies": {
+        "pika_algorithms_add_example_target_dependencies": {
             "kwargs": {},
             "pargs": {"flags": ["DEPS_ONLY"], "nargs": "2+"},
         },
-        "pika_add_example_test": {"pargs": {"nargs": 2}},
-        "pika_add_executable": {
+        "pika_algorithms_add_example_test": {"pargs": {"nargs": 2}},
+        "pika_algorithms_add_executable": {
             "kwargs": {
                 "AUXILIARY": "+",
                 "COMPILE_FLAGS": "+",
@@ -273,14 +273,13 @@ with section("parse"):
                 "flags": [
                     "EXCLUDE_FROM_ALL",
                     "EXCLUDE_FROM_DEFAULT_BUILD",
-                    "AUTOGLOB",
                     "INTERNAL_FLAGS",
                     "NOLIBS",
                 ],
                 "nargs": "1+",
             },
         },
-        "pika_add_header_tests": {
+        "pika_algorithms_add_header_tests": {
             "kwargs": {
                 "DEPENDENCIES": "+",
                 "EXCLUDE": "+",
@@ -290,7 +289,7 @@ with section("parse"):
             },
             "pargs": {"flags": ["NOLIBS"], "nargs": "1+"},
         },
-        "pika_add_headers_compile_test": {
+        "pika_algorithms_add_headers_compile_test": {
             "kwargs": {
                 "DEPENDENCIES": "+",
                 "FOLDER": 1,
@@ -299,7 +298,7 @@ with section("parse"):
             },
             "pargs": {"flags": ["FAILURE_EXPECTED", "NOLIBS"], "nargs": "2+"},
         },
-        "pika_add_library": {
+        "pika_algorithms_add_library": {
             "kwargs": {
                 "AUXILIARY": "+",
                 "COMPILER_FLAGS": "+",
@@ -321,30 +320,29 @@ with section("parse"):
                     "INTERNAL_FLAGS",
                     "NOLIBS",
                     "NOEXPORT",
-                    "AUTOGLOB",
                     "STATIC",
                     "NONAMEPREFIX",
                 ],
                 "nargs": "1+",
             },
         },
-        "pika_add_library_headers": {
+        "pika_algorithms_add_library_headers": {
             "kwargs": {"EXCLUDE": "+", "GLOBS": "+"},
             "pargs": {"flags": ["APPEND"], "nargs": "2+"},
         },
-        "pika_add_library_headers_noglob": {
+        "pika_algorithms_add_library_headers_noglob": {
             "kwargs": {"EXCLUDE": "+", "HEADERS": "+"},
             "pargs": {"flags": ["APPEND"], "nargs": "1+"},
         },
-        "pika_add_library_sources": {
+        "pika_algorithms_add_library_sources": {
             "kwargs": {"EXCLUDE": "+", "GLOBS": "+"},
             "pargs": {"flags": ["APPEND"], "nargs": "2+"},
         },
-        "pika_add_library_sources_noglob": {
+        "pika_algorithms_add_library_sources_noglob": {
             "kwargs": {"EXCLUDE": "+", "SOURCES": "+"},
             "pargs": {"flags": ["APPEND"], "nargs": "1+"},
         },
-        "pika_add_module": {
+        "pika_algorithms_add_module": {
             "kwargs": {
                 "CMAKE_SUBDIRS": "+",
                 "DEPENDENCIES": "+",
@@ -360,11 +358,11 @@ with section("parse"):
                 "nargs": "1+",
             },
         },
-        "pika_add_performance_test": {"pargs": {"nargs": 2}},
-        "pika_add_pseudo_dependencies": {"pargs": {"nargs": 0}},
-        "pika_add_pseudo_dependencies_no_shortening": {"pargs": {"nargs": 0}},
-        "pika_add_pseudo_target": {"pargs": {"nargs": 0}},
-        "pika_add_regression_compile_test": {
+        "pika_algorithms_add_performance_test": {"pargs": {"nargs": 2}},
+        "pika_algorithms_add_pseudo_dependencies": {"pargs": {"nargs": 0}},
+        "pika_algorithms_add_pseudo_dependencies_no_shortening": {"pargs": {"nargs": 0}},
+        "pika_algorithms_add_pseudo_target": {"pargs": {"nargs": 0}},
+        "pika_algorithms_add_regression_compile_test": {
             "kwargs": {
                 "DEPENDENCIES": "+",
                 "FOLDER": 1,
@@ -373,12 +371,12 @@ with section("parse"):
             },
             "pargs": {"flags": ["FAILURE_EXPECTED", "NOLIBS"], "nargs": "2+"},
         },
-        "pika_add_regression_test": {"pargs": {"nargs": 2}},
-        "pika_add_source_group": {
+        "pika_algorithms_add_regression_test": {"pargs": {"nargs": 2}},
+        "pika_algorithms_add_source_group": {
             "kwargs": {"CLASS": 1, "NAME": 1, "ROOT": 1, "TARGETS": "+"},
             "pargs": {"flags": [], "nargs": "*"},
         },
-        "pika_add_test": {
+        "pika_algorithms_add_test": {
             "kwargs": {
                 "ARGS": "+",
                 "EXECUTABLE": 1,
@@ -386,11 +384,11 @@ with section("parse"):
             },
             "pargs": {"flags": ["FAILURE_EXPECTED"], "nargs": "2+"},
         },
-        "pika_add_test_target_dependencies": {
+        "pika_algorithms_add_test_target_dependencies": {
             "kwargs": {"PSEUDO_DEPS_NAME": 1},
             "pargs": {"flags": [], "nargs": "2+"},
         },
-        "pika_add_unit_compile_test": {
+        "pika_algorithms_add_unit_compile_test": {
             "kwargs": {
                 "DEPENDENCIES": "+",
                 "FOLDER": 1,
@@ -399,7 +397,7 @@ with section("parse"):
             },
             "pargs": {"flags": ["FAILURE_EXPECTED", "NOLIBS"], "nargs": "2+"},
         },
-        "pika_add_unit_test": {
+        "pika_algorithms_add_unit_test": {
             "kwargs": {
                 "DEPENDENCIES": "+",
                 "FOLDER": 1,
@@ -408,7 +406,7 @@ with section("parse"):
             },
             "pargs": {"flags": ["FAILURE_EXPECTED", "NOLIBS"], "nargs": "2+"},
         },
-        "pika_add_test_and_deps_compile_test": {
+        "pika_algorithms_add_test_and_deps_compile_test": {
             "kwargs": {
                 "DEPENDENCIES": "+",
                 "FOLDER": 1,
@@ -417,92 +415,86 @@ with section("parse"):
             },
             "pargs": {"flags": ["FAILURE_EXPECTED", "NOLIBS"], "nargs": "3+"},
         },
-        "pika_add_test_and_deps_test": {"pargs": {"nargs": 3}},
-        "pika_create_configuration_summary": {"pargs": {"nargs": 2}},
-        "pika_create_symbolic_link": {"pargs": {"nargs": 2}},
-        "pika_get_target_property": {"pargs": {"nargs": 3}},
-        "pika_add_compile_flag": {"pargs": {"nargs": 0}},
-        "pika_add_compile_flag_if_available": {
+        "pika_algorithms_add_test_and_deps_test": {"pargs": {"nargs": 3}},
+        "pika_algorithms_create_configuration_summary": {"pargs": {"nargs": 2}},
+        "pika_algorithms_get_target_property": {"pargs": {"nargs": 3}},
+        "pika_algorithms_add_compile_flag": {"pargs": {"nargs": 0}},
+        "pika_algorithms_add_compile_flag_if_available": {
             "kwargs": {"CONFIGURATIONS": "+", "LANGUAGES": "+", "NAME": 1},
             "pargs": {"flags": [], "nargs": "1+"},
         },
-        "pika_add_config_cond_define": {"pargs": {"nargs": 1}},
-        "pika_add_config_define": {"pargs": {"nargs": 1}},
-        "pika_add_config_define_namespace": {
-            "kwargs": {"DEFINE": 1, "NAMESPACE": 1, "VALUE": "+"},
-            "pargs": {"flags": [], "nargs": "*"},
-        },
-        "pika_add_link_flag": {
+        "pika_algorithms_add_config_define": {"pargs": {"nargs": 1}},
+        "pika_algorithms_add_link_flag": {
             "kwargs": {"CONFIGURATIONS": "+", "TARGETS": "+"},
             "pargs": {"flags": [], "nargs": "1+"},
         },
-        "pika_add_link_flag_if_available": {
+        "pika_algorithms_add_link_flag_if_available": {
             "kwargs": {"NAME": 1, "TARGETS": "+"},
             "pargs": {"flags": [], "nargs": "1+"},
         },
-        "pika_add_target_compile_definition": {
+        "pika_algorithms_add_target_compile_definition": {
             "kwargs": {"CONFIGURATIONS": "+"},
             "pargs": {"flags": ["PUBLIC"], "nargs": "1+"},
         },
-        "pika_add_target_compile_option": {
+        "pika_algorithms_add_target_compile_option": {
             "kwargs": {"CONFIGURATIONS": "+", "LANGUAGES": "+"},
             "pargs": {"flags": ["PUBLIC"], "nargs": "1+"},
         },
-        "pika_add_target_compile_option_if_available": {
+        "pika_algorithms_add_target_compile_option_if_available": {
             "kwargs": {"CONFIGURATIONS": "+", "LANGUAGES": "+", "NAME": 1},
             "pargs": {"flags": ["PUBLIC"], "nargs": "1+"},
         },
-        "pika_append_property": {"pargs": {"nargs": 2}},
-        "pika_check_for_cxx11_std_atomic": {"pargs": {"nargs": 0}},
-        "pika_check_for_cxx11_std_atomic_128bit": {"pargs": {"nargs": 0}},
-        "pika_check_for_cxx11_std_quick_exit": {"pargs": {"nargs": 0}},
-        "pika_check_for_cxx11_std_shared_ptr_lwg3018": {"pargs": {"nargs": 0}},
-        "pika_check_for_cxx17_aligned_new": {"pargs": {"nargs": 0}},
-        "pika_check_for_cxx17_filesystem": {"pargs": {"nargs": 0}},
-        "pika_check_for_cxx17_hardware_destructive_interference_size": {
+        "pika_algorithms_append_property": {"pargs": {"nargs": 2}},
+        "pika_algorithms_check_for_cxx11_std_atomic": {"pargs": {"nargs": 0}},
+        "pika_algorithms_check_for_cxx11_std_atomic_128bit": {"pargs": {"nargs": 0}},
+        "pika_algorithms_check_for_cxx11_std_quick_exit": {"pargs": {"nargs": 0}},
+        "pika_algorithms_check_for_cxx11_std_shared_ptr_lwg3018": {"pargs": {"nargs": 0}},
+        "pika_algorithms_check_for_cxx17_aligned_new": {"pargs": {"nargs": 0}},
+        "pika_algorithms_check_for_cxx17_filesystem": {"pargs": {"nargs": 0}},
+        "pika_algorithms_check_for_cxx17_hardware_destructive_interference_size": {
             "pargs": {"nargs": 0}
         },
-        "pika_check_for_libfun_std_experimental_optional": {"pargs": {"nargs": 0}},
-        "pika_check_for_mm_prefetch": {"pargs": {"nargs": 0}},
-        "pika_check_for_stable_inplace_merge": {"pargs": {"nargs": 0}},
-        "pika_check_for_unistd_h": {"pargs": {"nargs": 0}},
-        "pika_collect_usage_requirements": {
+        "pika_algorithms_check_for_libfun_std_experimental_optional": {"pargs": {"nargs": 0}},
+        "pika_algorithms_check_for_mm_prefetch": {"pargs": {"nargs": 0}},
+        "pika_algorithms_check_for_stable_inplace_merge": {"pargs": {"nargs": 0}},
+        "pika_algorithms_check_for_unistd_h": {"pargs": {"nargs": 0}},
+        "pika_algorithms_collect_usage_requirements": {
             "kwargs": {"EXCLUDE": "+"},
             "pargs": {"flags": [], "nargs": "10+"},
         },
-        "pika_config_loglevel": {"pargs": {"nargs": 2}},
-        "pika_construct_cflag_list": {"pargs": {"nargs": 6}},
-        "pika_construct_library_list": {"pargs": {"nargs": 3}},
-        "pika_cpuid": {"pargs": {"nargs": 2}},
-        "pika_debug": {"pargs": {"nargs": 0}},
-        "pika_error": {"pargs": {"nargs": 0}},
-        "pika_export_modules_targets": {"pargs": {"nargs": 0}},
-        "pika_export_targets": {"pargs": {"nargs": 0}},
-        "pika_force_out_of_tree_build": {"pargs": {"nargs": 1}},
-        "pika_info": {"pargs": {"nargs": 0}},
-        "pika_message": {"pargs": {"nargs": 1}},
-        "pika_option": {
+        "pika_algorithms_config_loglevel": {"pargs": {"nargs": 2}},
+        "pika_algorithms_construct_cflag_list": {"pargs": {"nargs": 6}},
+        "pika_algorithms_construct_library_list": {"pargs": {"nargs": 3}},
+        "pika_algorithms_cpuid": {"pargs": {"nargs": 2}},
+        "pika_algorithms_debug": {"pargs": {"nargs": 0}},
+        "pika_algorithms_error": {"pargs": {"nargs": 0}},
+        "pika_algorithms_export_modules_targets": {"pargs": {"nargs": 0}},
+        "pika_algorithms_export_targets": {"pargs": {"nargs": 0}},
+        "pika_algorithms_force_out_of_tree_build": {"pargs": {"nargs": 1}},
+        "pika_algorithms_info": {"pargs": {"nargs": 0}},
+        "pika_algorithms_message": {"pargs": {"nargs": 1}},
+        "pika_algorithms_option": {
             "kwargs": {"CATEGORY": 1, "MODULE": 1, "STRINGS": "+"},
             "pargs": {"flags": ["ADVANCED"], "nargs": "4+"},
         },
-        "pika_perform_cxx_feature_tests": {"pargs": {"nargs": 0}},
-        "pika_print_list": {"pargs": {"nargs": 3}},
-        "pika_remove_link_flag": {
+        "pika_algorithms_perform_cxx_feature_tests": {"pargs": {"nargs": 0}},
+        "pika_algorithms_print_list": {"pargs": {"nargs": 3}},
+        "pika_algorithms_remove_link_flag": {
             "kwargs": {"CONFIGURATIONS": "+", "TARGETS": "+"},
             "pargs": {"flags": [], "nargs": "1+"},
         },
-        "pika_remove_target_compile_option": {
+        "pika_algorithms_remove_target_compile_option": {
             "kwargs": {"CONFIGURATIONS": "+"},
             "pargs": {"flags": ["PUBLIC"], "nargs": "1+"},
         },
-        "pika_sanitize_usage_requirements": {"pargs": {"nargs": 2}},
-        "pika_set_cmake_policy": {"pargs": {"nargs": 2}},
-        "pika_set_lib_name": {"pargs": {"nargs": 2}},
-        "pika_set_option": {
+        "pika_algorithms_sanitize_usage_requirements": {"pargs": {"nargs": 2}},
+        "pika_algorithms_set_cmake_policy": {"pargs": {"nargs": 2}},
+        "pika_algorithms_set_lib_name": {"pargs": {"nargs": 2}},
+        "pika_algorithms_set_option": {
             "kwargs": {"HELPSTRING": 1, "TYPE": 1, "VALUE": 1},
             "pargs": {"flags": ["FORCE"], "nargs": "1+"},
         },
-        "pika_setup_target": {
+        "pika_algorithms_setup_target": {
             "kwargs": {
                 "COMPILE_FLAGS": "+",
                 "DEPENDENCIES": "+",
@@ -529,13 +521,9 @@ with section("parse"):
                 "nargs": "1+",
             },
         },
-        "pika_warn": {"pargs": {"nargs": 0}},
-        "pika_setup_mpi": {"pargs": {"nargs": 0}},
-        "pika_shorten_pseudo_target": {"pargs": {"nargs": 2}},
-        "pika_write_config_defines_file": {
-            "kwargs": {"FILENAME": 1, "NAMESPACE": 1, "TEMPLATE": 1},
-            "pargs": {"flags": [], "nargs": "*"},
-        },
+        "pika_algorithms_warn": {"pargs": {"nargs": 0}},
+        "pika_algorithms_setup_mpi": {"pargs": {"nargs": 0}},
+        "pika_algorithms_shorten_pseudo_target": {"pargs": {"nargs": 2}},
     }
 
     # Specify property tags.
