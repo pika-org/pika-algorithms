@@ -188,7 +188,7 @@ namespace pika::parallel::detail {
     {
     };
 
-#if defined(PIKA_HAVE_DATAPAR)
+#if defined(PIKA_ALGORITHMS_HAVE_DATAPAR)
     ///////////////////////////////////////////////////////////////////////////
     template <typename T>
     struct algorithm_result_impl<pika::execution::simd_task_policy, T>

@@ -54,7 +54,7 @@ namespace pika::parallel::detail {
     {
     };
 
-#if defined(PIKA_HAVE_DATAPAR)
+#if defined(PIKA_ALGORITHMS_HAVE_DATAPAR)
     // This is being instantiated if a vector pack execution policy is used
     // with a zip_iterator. In this case the function object is invoked
     // with a tuple<datapar<T>...> instead of just a tuple<T...>
@@ -184,7 +184,7 @@ namespace pika::parallel::detail {
     {
     };
 
-#if defined(PIKA_HAVE_DATAPAR)
+#if defined(PIKA_ALGORITHMS_HAVE_DATAPAR)
     // Vector pack execution policies used with zip-iterators require
     // special handling because zip_iterator<>::reference is not a real
     // reference type.

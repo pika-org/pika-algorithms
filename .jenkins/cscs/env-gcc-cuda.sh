@@ -13,6 +13,6 @@ pika_version="main"
 spack_compiler="gcc@${gcc_version}"
 spack_arch="cray-cnl7-haswell"
 
-spack_spec="pika@main arch=${spack_arch} %${spack_compiler} cxxstd=${cxx_std} ^pika@${pika_version} +cuda cuda_arch=60 malloc=system ^boost@${boost_version} ^hwloc@${hwloc_version} ^cuda@${cuda_version}"
+spack_spec="pika-algorithms@main arch=${spack_arch} %${spack_compiler} cxxstd=${cxx_std} ^pika@${pika_version} +cuda cuda_arch=60 malloc=system ^boost@${boost_version} ^hwloc@${hwloc_version} ^cuda@${cuda_version}"
 
 configure_extra_options+=" -DPIKA_ALGORITHMS_WITH_CXX_STANDARD=${cxx_std}"

@@ -22,7 +22,7 @@
 #include <utility>
 #include <vector>
 
-#if defined(PIKA_HAVE_MM_PREFETCH)
+#if defined(PIKA_ALGORITHMS_HAVE_MM_PREFETCH)
 #if defined(PIKA_MSVC)
 #include <intrin.h>
 #endif
@@ -246,7 +246,7 @@ namespace pika::parallel::detail {
         };
 
         ///////////////////////////////////////////////////////////////////////
-#if defined(PIKA_HAVE_MM_PREFETCH)
+#if defined(PIKA_ALGORITHMS_HAVE_MM_PREFETCH)
         template <typename... T>
         PIKA_FORCEINLINE void prefetch_addresses(T const&... ts)
         {
