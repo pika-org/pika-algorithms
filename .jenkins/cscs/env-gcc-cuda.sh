@@ -9,7 +9,7 @@ gcc_version="9.3.0"
 boost_version="1.75.0"
 hwloc_version="2.0.3"
 cuda_version="11.2.0"
-pika_version="main"
+pika_version="0.11.0"
 spack_compiler="gcc@${gcc_version}"
 spack_arch="cray-cnl7-haswell"
 

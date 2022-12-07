@@ -8,7 +8,7 @@ cxx_std="17"
 gcc_version="9.3.0"
 boost_version="1.71.0"
 hwloc_version="1.11.5"
-pika_version="main"
+pika_version="0.11.0"
 spack_compiler="gcc@${gcc_version}"
 spack_arch="cray-cnl7-broadwell"
 

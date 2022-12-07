@@ -33,7 +33,7 @@ jobs:
       uses: actions/checkout@v3
       with:
         repository: pika-org/pika
-        ref: main
+        ref: 0.11.0
         path: pika
     - name: Install pika
       shell: bash

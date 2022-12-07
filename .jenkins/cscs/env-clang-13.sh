@@ -8,11 +8,11 @@ cxx_std="20"
 clang_version="13.0.1"
 boost_version="1.79.0"
 hwloc_version="2.6.0"
-pika_version="main"
+pika_version="0.11.0"
 spack_compiler="clang@${clang_version}"
 spack_arch="cray-cnl7-broadwell"
 
-spack_spec="pika-algorithms@main arch=${spack_arch} %${spack_compiler} cxxflags=-stdlib=libc++ cxxstd=${cxx_std} ^pika@${pika_version} malloc=system +p2300 ^boost@${boost_version} ^hwloc@${hwloc_version}"
+spack_spec="pika-algorithms@main arch=${spack_arch} %${spack_compiler} cxxflags=-stdlib=libc++ cxxstd=${cxx_std} ^pika@${pika_version} cxxflags=-stdlib=libc++ malloc=system +p2300 ^boost@${boost_version} ^hwloc@${hwloc_version}"
 
 configure_extra_options+=" -DCMAKE_CXX_FLAGS=-stdlib=libc++"
 configure_extra_options+=" -DPIKA_ALGORITHMS_WITH_CXX_STANDARD=${cxx_std}"

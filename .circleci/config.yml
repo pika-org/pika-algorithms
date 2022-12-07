@@ -166,7 +166,7 @@ jobs:
       - run:
           name: Install pika
           command: |
-            git clone --branch main --single-branch --depth 1 \
+            git clone --branch 0.11.0 --single-branch --depth 1 \
               https://github.com/pika-org/pika.git
             mkdir pika/build
             cd pika/build
@@ -462,7 +462,7 @@ jobs:
                 -DCMAKE_INSTALL_PREFIX=$HOME/project/install/fmt . && \
               ninja install)
             export CMAKE_PREFIX_PATH=$HOME/project/install/fmt:${CMAKE_PREFIX_PATH}
-            git clone --branch main --single-branch --depth 1 \
+            git clone --branch 0.11.0 --single-branch --depth 1 \
               https://github.com/pika-org/pika.git
             mkdir pika/build
             (cd pika/build &&
