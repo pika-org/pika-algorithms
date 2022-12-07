@@ -7,7 +7,7 @@
 cxx_std="17"
 gcc_version="10.3.0"
 apex_version="2.4.1"
-pika_version="main"
+pika_version="0.11.0"
 spack_compiler="gcc@${gcc_version}"
 spack_arch="cray-cnl7-haswell"
 

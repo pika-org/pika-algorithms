@@ -8,7 +8,7 @@ cxx_std="17"
 cce_version="12.0.3"
 boost_version="1.78.0"
 hwloc_version="2.0.3"
-pika_version="main"
+pika_version="0.11.0"
 spack_compiler="cce@${cce_version}"
 spack_arch="cray-cnl7-broadwell"
 
