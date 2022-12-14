@@ -98,7 +98,7 @@ namespace pika::parallel::detail {
     template <typename Proj, typename Iter>
     struct is_projected_impl<Proj, Iter,
         typename std::enable_if<pika::traits::is_iterator<Iter>::value &&
-            pika::detail::is_invocable<Proj,
+            std::is_invocable<Proj,
                 typename std::iterator_traits<Iter>::reference>::value>::type>
       : std::integral_constant<bool,
             !std::is_void<typename pika::util::detail::invoke_result<Proj,
@@ -159,8 +159,7 @@ namespace pika::parallel::detail {
     };
 
     template <typename F, typename... Args>
-    struct is_indirect_callable_impl_base
-      : pika::detail::is_invocable<F, Args...>
+    struct is_indirect_callable_impl_base : std::is_invocable<F, Args...>
     {
     };
 

@@ -256,7 +256,7 @@ namespace pika::parallel::detail {
 
     ///////////////////////////////////////////////////////////////////////////
     template <typename U, typename Conv,
-        PIKA_CONCEPT_REQUIRES_(pika::detail::is_invocable_v<Conv, U>)>
+        PIKA_CONCEPT_REQUIRES_(std::is_invocable_v<Conv, U>)>
     constexpr typename pika::util::detail::invoke_result<Conv, U>::type
     convert_to_result(U&& val, Conv&& conv)
     {
@@ -264,7 +264,7 @@ namespace pika::parallel::detail {
     }
 
     template <typename U, typename Conv,
-        PIKA_CONCEPT_REQUIRES_(pika::detail::is_invocable_v<Conv, U>)>
+        PIKA_CONCEPT_REQUIRES_(std::is_invocable_v<Conv, U>)>
     pika::future<typename pika::util::detail::invoke_result<Conv, U>::type>
     convert_to_result(pika::future<U>&& f, Conv&& conv)
     {

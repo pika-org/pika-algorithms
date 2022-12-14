@@ -420,7 +420,7 @@ namespace pika {
             // clang-format off
             PIKA_CONCEPT_REQUIRES_(
                 pika::traits::is_forward_iterator<FwdIter>::value &&
-                pika::detail::is_invocable_v<
+                std::is_invocable_v<
                     Pred,
                     typename std::iterator_traits<FwdIter>::value_type,
                     typename std::iterator_traits<FwdIter>::value_type
@@ -441,7 +441,7 @@ namespace pika {
             PIKA_CONCEPT_REQUIRES_(
                 pika::is_execution_policy<ExPolicy>::value &&
                 pika::traits::is_forward_iterator<FwdIter>::value &&
-                pika::detail::is_invocable_v<
+                std::is_invocable_v<
                     Pred,
                     typename std::iterator_traits<FwdIter>::value_type,
                     typename std::iterator_traits<FwdIter>::value_type
@@ -469,7 +469,7 @@ namespace pika {
             // clang-format off
             PIKA_CONCEPT_REQUIRES_(
                 pika::traits::is_forward_iterator<FwdIter>::value &&
-                pika::detail::is_invocable_v<
+                std::is_invocable_v<
                     Pred,
                     typename std::iterator_traits<FwdIter>::value_type,
                     typename std::iterator_traits<FwdIter>::value_type
@@ -491,7 +491,7 @@ namespace pika {
             PIKA_CONCEPT_REQUIRES_(
                 pika::is_execution_policy<ExPolicy>::value &&
                 pika::traits::is_forward_iterator<FwdIter>::value &&
-                pika::detail::is_invocable_v<
+                std::is_invocable_v<
                     Pred,
                     typename std::iterator_traits<FwdIter>::value_type,
                     typename std::iterator_traits<FwdIter>::value_type
