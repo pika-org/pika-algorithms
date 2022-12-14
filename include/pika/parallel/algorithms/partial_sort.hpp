@@ -516,7 +516,7 @@ namespace pika {
             typename Comp = pika::parallel::detail::less,
             PIKA_CONCEPT_REQUIRES_(
                 pika::traits::is_iterator<RandIter>::value &&
-                pika::detail::is_invocable_v<Comp,
+                std::is_invocable_v<Comp,
                     typename std::iterator_traits<RandIter>::value_type,
                     typename std::iterator_traits<RandIter>::value_type
                 >
@@ -542,7 +542,7 @@ namespace pika {
             PIKA_CONCEPT_REQUIRES_(
                 pika::is_execution_policy<ExPolicy>::value &&
                 pika::traits::is_iterator<RandIter>::value &&
-                pika::detail::is_invocable_v<Comp,
+                std::is_invocable_v<Comp,
                     typename std::iterator_traits<RandIter>::value_type,
                     typename std::iterator_traits<RandIter>::value_type
                 >
