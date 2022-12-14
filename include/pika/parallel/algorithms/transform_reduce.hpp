@@ -255,7 +255,6 @@ namespace pika {
 #include <pika/concepts/concepts.hpp>
 #include <pika/functional/invoke.hpp>
 #include <pika/functional/invoke_result.hpp>
-#include <pika/functional/traits/is_invocable.hpp>
 #include <pika/iterator_support/range.hpp>
 #include <pika/iterator_support/traits/is_iterator.hpp>
 #include <pika/pack_traversal/unwrap.hpp>

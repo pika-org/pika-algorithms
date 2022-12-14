@@ -137,7 +137,6 @@ namespace pika {
 #include <pika/config.hpp>
 #include <pika/concepts/concepts.hpp>
 #include <pika/functional/invoke.hpp>
-#include <pika/functional/traits/is_invocable.hpp>
 #include <pika/futures/future.hpp>
 #include <pika/iterator_support/traits/is_iterator.hpp>
 #include <pika/parallel/util/detail/sender_util.hpp>
