@@ -218,7 +218,6 @@ namespace pika {
 #include <pika/functional/detail/tag_fallback_invoke.hpp>
 #include <pika/functional/invoke.hpp>
 #include <pika/functional/invoke_result.hpp>
-#include <pika/functional/traits/is_invocable.hpp>
 #include <pika/iterator_support/traits/is_iterator.hpp>
 #include <pika/type_support/unused.hpp>
 
