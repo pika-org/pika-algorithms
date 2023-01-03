@@ -5,7 +5,9 @@
 # Distributed under the Boost Software License, Version 1.0. (See accompanying
 # file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-if(NOT TARGET Boost::boost)
+if(NOT TARGET Boost::boost AND (PIKA_ALGORITHMS_WITH_TESTS
+                                OR PIKA_ALGORITHMS_WITH_EXAMPLES)
+)
   # Add additional version to recognize
   # cmake-format: off
   set(Boost_ADDITIONAL_VERSIONS

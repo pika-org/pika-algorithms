@@ -132,7 +132,9 @@ function(pika_algorithms_setup_target target)
         target_precompile_headers(
           ${target} REUSE_FROM pika_algorithms_exe_precompiled_headers
         )
-        target_link_libraries(${target} PRIVATE Boost::boost fmt::fmt)
+        if(PIKA_ALGORITHMS_WITH_TESTS OR PIKA_ALGORITHMS_WITH_EXAMPLES)
+          target_link_libraries(${target} PRIVATE Boost::boost fmt::fmt)
+        endif()
       endif()
     endif()
   endif()
