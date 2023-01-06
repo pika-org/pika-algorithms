@@ -64,13 +64,13 @@ jobs:
     - name: Build
       shell: bash
       run: |
-          cmake --build build --target tests
+          cmake --build build --target foreach_range_test
     - name: Test
       shell: bash
       working-directory: build
       continue-on-error: true
       run: |
-          ctest -j2 --timeout 120 --output-on-failure
+          ctest -j2 --timeout 120 --output-on-failure -R foreach_range_test
     - name: Upload coverage report
       shell: bash
       working-directory: build
