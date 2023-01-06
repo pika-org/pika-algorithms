@@ -79,9 +79,7 @@ jobs:
               --source-dir .. \
               --output-path lcov.info \
               --output-type lcov \
-              --llvm \
-              --ignore-not-existing \
-              --keep-only "*include/*"
+              --llvm
           bash <(curl -Ls https://coverage.codacy.com/get.sh) report \
               --project-token ${{ secrets.CODACY_PIKA_ALGORITHMS_PROJECT_TOKEN }} \
               --language CPP \
