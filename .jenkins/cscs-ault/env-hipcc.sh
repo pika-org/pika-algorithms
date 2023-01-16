@@ -17,3 +17,5 @@ spack_spec="pika-algorithms@main arch=${spack_arch} %${spack_compiler} cxxstd=${
 
 configure_extra_options+=" -DCMAKE_BUILD_RPATH=$(spack location -i ${spack_compiler})/lib64"
 configure_extra_options+=" -DPIKA_ALGORITHMS_WITH_CXX_STANDARD=${cxx_std}"
+
+build_extra_options+=" -j32"
