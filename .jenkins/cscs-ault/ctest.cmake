@@ -81,7 +81,7 @@ ctest_build(TARGET all FLAGS "-k0 ${CTEST_BUILD_EXTRA_OPTIONS}")
 ctest_build(TARGET examples FLAGS "-k0 ${CTEST_BUILD_EXTRA_OPTIONS}")
 ctest_build(TARGET tests FLAGS "-k0 ${CTEST_BUILD_EXTRA_OPTIONS}")
 ctest_submit(PARTS Build)
-ctest_test(PARALLEL_LEVEL "${CTEST_TEST_PARALLELISM}")
+ctest_test(${test_args})
 ctest_submit(PARTS Test BUILD_ID CTEST_BUILD_ID)
 file(WRITE "${CTEST_JOB_NAME}-cdash-build-id.txt"
      "${CTEST_BUILD_ID}"
