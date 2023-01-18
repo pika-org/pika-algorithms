@@ -18,7 +18,7 @@ set(CTEST_SUBMIT_RETRY_DELAY 60)
 include(ProcessorCount)
 processorcount(processor_count)
 if(NOT processor_count EQUAL 0)
-  set(test_args PARALLEL_LEVEL ${processor_count})
+  set(test_args PARALLEL_LEVEL 16)
 endif()
 
 if("$ENV{ghprbPullId}" STREQUAL "")
