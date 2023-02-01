@@ -391,7 +391,7 @@ namespace pika {
             typename Pred, PIKA_CONCEPT_REQUIRES_(
                 pika::traits::is_iterator<InIter>::value &&
                 pika::traits::is_iterator<OutIter>::value &&
-                pika::detail::is_invocable_v<Pred,
+                std::is_invocable_v<Pred,
                     typename std::iterator_traits<InIter>::value_type
                 >
             )>
@@ -420,7 +420,7 @@ namespace pika {
                 pika::is_execution_policy<ExPolicy>::value&&
                 pika::traits::is_iterator<FwdIter1>::value &&
                 pika::traits::is_iterator<FwdIter2>::value &&
-                pika::detail::is_invocable_v<Pred,
+                std::is_invocable_v<Pred,
                     typename std::iterator_traits<FwdIter1>::value_type
                 >
             )>

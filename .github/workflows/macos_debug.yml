@@ -23,11 +23,17 @@ jobs:
     steps:
     - name: Install dependencies
       run: |
+          # Workaround for https://github.com/actions/setup-python/issues/577
+          rm /usr/local/bin/2to3*
+          rm /usr/local/bin/idle3*
+          rm /usr/local/bin/pydoc3*
+          rm /usr/local/bin/python3*
+
           export HOMEBREW_NO_INSTALL_CLEANUP=TRUE
           brew upgrade
           brew update
           brew install boost cmake fmt hwloc ninja
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Check out pika
       uses: actions/checkout@v3
       with:

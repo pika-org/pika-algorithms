@@ -9,7 +9,6 @@
 #include <pika/config.hpp>
 #include <pika/execution/traits/is_execution_policy.hpp>
 #include <pika/functional/invoke_result.hpp>
-#include <pika/functional/traits/is_invocable.hpp>
 #include <pika/iterator_support/traits/is_iterator.hpp>
 #include <pika/parallel/util/vector_pack_load_store.hpp>
 #include <pika/parallel/util/vector_pack_type.hpp>
@@ -98,7 +97,7 @@ namespace pika::parallel::detail {
     template <typename Proj, typename Iter>
     struct is_projected_impl<Proj, Iter,
         typename std::enable_if<pika::traits::is_iterator<Iter>::value &&
-            pika::detail::is_invocable<Proj,
+            std::is_invocable<Proj,
                 typename std::iterator_traits<Iter>::reference>::value>::type>
       : std::integral_constant<bool,
             !std::is_void<typename pika::util::detail::invoke_result<Proj,
@@ -159,8 +158,7 @@ namespace pika::parallel::detail {
     };
 
     template <typename F, typename... Args>
-    struct is_indirect_callable_impl_base
-      : pika::detail::is_invocable<F, Args...>
+    struct is_indirect_callable_impl_base : std::is_invocable<F, Args...>
     {
     };
 

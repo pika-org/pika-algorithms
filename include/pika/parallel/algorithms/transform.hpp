@@ -178,7 +178,6 @@ namespace pika {
 #include <pika/functional/traits/get_function_annotation.hpp>
 #endif
 #include <pika/functional/invoke.hpp>
-#include <pika/functional/traits/is_invocable.hpp>
 #include <pika/iterator_support/traits/is_iterator.hpp>
 #include <pika/parallel/util/detail/sender_util.hpp>
 #include <pika/parallel/util/result_types.hpp>

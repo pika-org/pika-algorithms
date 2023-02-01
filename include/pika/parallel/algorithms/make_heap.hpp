@@ -104,7 +104,6 @@ namespace pika {
 #include <pika/concepts/concepts.hpp>
 #include <pika/functional/bind_front.hpp>
 #include <pika/functional/invoke.hpp>
-#include <pika/functional/traits/is_invocable.hpp>
 #include <pika/futures/future.hpp>
 #include <pika/iterator_support/traits/is_iterator.hpp>
 #include <pika/parallel/util/detail/sender_util.hpp>
@@ -409,7 +408,7 @@ namespace pika {
             PIKA_CONCEPT_REQUIRES_(
                 pika::is_execution_policy<ExPolicy>::value &&
                 pika::traits::is_iterator<RndIter>::value &&
-                pika::detail::is_invocable_v<Comp,
+                std::is_invocable_v<Comp,
                     typename std::iterator_traits<RndIter>::value_type,
                     typename std::iterator_traits<RndIter>::value_type
                 >
@@ -459,7 +458,7 @@ namespace pika {
         template <typename RndIter, typename Comp,
             PIKA_CONCEPT_REQUIRES_(
                 pika::traits::is_iterator<RndIter>::value &&
-                pika::detail::is_invocable_v<Comp,
+                std::is_invocable_v<Comp,
                     typename std::iterator_traits<RndIter>::value_type,
                     typename std::iterator_traits<RndIter>::value_type
                 >
