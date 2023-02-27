@@ -7,7 +7,6 @@
 #pragma once
 
 #include <pika/config.hpp>
-#include <pika/functional/invoke_result.hpp>
 #include <pika/iterator_support/traits/is_range.hpp>
 
 #include <pika/algorithms/traits/projected.hpp>
