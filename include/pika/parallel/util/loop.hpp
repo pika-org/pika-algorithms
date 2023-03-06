@@ -11,7 +11,6 @@
 #include <pika/execution/traits/is_execution_policy.hpp>
 #include <pika/functional/detail/invoke.hpp>
 #include <pika/functional/detail/tag_fallback_invoke.hpp>
-#include <pika/functional/invoke_result.hpp>
 #include <pika/iterator_support/traits/is_iterator.hpp>
 #include <pika/parallel/util/cancellation_token.hpp>
 #include <pika/parallel/util/projection_identity.hpp>
@@ -32,7 +31,7 @@ namespace pika::parallel::detail {
     private:
         template <typename VecOnly, typename F, typename... Iters>
         friend PIKA_HOST_DEVICE PIKA_FORCEINLINE
-            typename pika::util::detail::invoke_result<F, Iters...>::type
+            typename std::invoke_result<F, Iters...>::type
             tag_fallback_invoke(
                 loop_step_t<ExPolicy>, VecOnly&&, F&& f, Iters&... its)
         {
@@ -47,7 +46,7 @@ namespace pika::parallel::detail {
     template <typename ExPolicy, typename VecOnly, typename F,
         typename... Iters>
     PIKA_HOST_DEVICE PIKA_FORCEINLINE
-        typename pika::util::detail::invoke_result<F, Iters...>::type
+        typename std::invoke_result<F, Iters...>::type
         loop_step(VecOnly&& v, F&& f, Iters&... its)
     {
         return loop_step_t<ExPolicy>{}(

@@ -245,7 +245,6 @@ namespace pika {
 
 #include <pika/config.hpp>
 #include <pika/concepts/concepts.hpp>
-#include <pika/functional/invoke_result.hpp>
 #include <pika/iterator_support/range.hpp>
 #include <pika/iterator_support/traits/is_iterator.hpp>
 #include <pika/iterator_support/traits/is_range.hpp>
@@ -287,10 +286,10 @@ namespace pika::ranges {
                     typename std::iterator_traits<Iter>::value_type
                 > &&
                 std::is_invocable_v<Reduce,
-                   typename pika::util::detail::invoke_result<Convert,
+                   typename std::invoke_result<Convert,
                        typename std::iterator_traits<Iter>::value_type
                    >::type,
-                   typename pika::util::detail::invoke_result<Convert,
+                   typename std::invoke_result<Convert,
                        typename std::iterator_traits<Iter>::value_type
                    >::type
                 >
@@ -320,10 +319,10 @@ namespace pika::ranges {
                    typename std::iterator_traits<Iter>::value_type
                 > &&
                 std::is_invocable_v<Reduce,
-                   typename pika::util::detail::invoke_result<Convert,
+                   typename std::invoke_result<Convert,
                        typename std::iterator_traits<Iter>::value_type
                    >::type,
-                   typename pika::util::detail::invoke_result<Convert,
+                   typename std::invoke_result<Convert,
                        typename std::iterator_traits<Iter>::value_type
                    >::type
                 >
@@ -398,11 +397,11 @@ namespace pika::ranges {
                     typename std::iterator_traits<Iter2>::value_type
                 > &&
                 std::is_invocable_v<Reduce,
-                    typename pika::util::detail::invoke_result<Convert,
+                    typename std::invoke_result<Convert,
                         typename std::iterator_traits<Iter>::value_type,
                         typename std::iterator_traits<Iter2>::value_type
                     >::type,
-                    typename pika::util::detail::invoke_result<Convert,
+                    typename std::invoke_result<Convert,
                         typename std::iterator_traits<Iter>::value_type,
                         typename std::iterator_traits<Iter2>::value_type
                     >::type
@@ -437,11 +436,11 @@ namespace pika::ranges {
                     typename std::iterator_traits<Iter2>::value_type
                 > &&
                 std::is_invocable_v<Reduce,
-                    typename pika::util::detail::invoke_result<Convert,
+                    typename std::invoke_result<Convert,
                         typename std::iterator_traits<Iter>::value_type,
                         typename std::iterator_traits<Iter2>::value_type
                     >::type,
-                    typename pika::util::detail::invoke_result<Convert,
+                    typename std::invoke_result<Convert,
                         typename std::iterator_traits<Iter>::value_type,
                         typename std::iterator_traits<Iter2>::value_type
                     >::type
@@ -472,10 +471,10 @@ namespace pika::ranges {
                     typename pika::traits::range_traits<Rng>::value_type
                 > &&
                 std::is_invocable_v<Reduce,
-                    typename pika::util::detail::invoke_result<Convert,
+                    typename std::invoke_result<Convert,
                         typename pika::traits::range_traits<Rng>::value_type
                     >::type,
-                    typename pika::util::detail::invoke_result<Convert,
+                    typename std::invoke_result<Convert,
                         typename pika::traits::range_traits<Rng>::value_type
                     >::type
                 >
@@ -507,10 +506,10 @@ namespace pika::ranges {
                     typename pika::traits::range_traits<Rng>::value_type
                 > &&
                 std::is_invocable_v<Reduce,
-                    typename pika::util::detail::invoke_result<Convert,
+                    typename std::invoke_result<Convert,
                         typename pika::traits::range_traits<Rng>::value_type
                     >::type,
-                    typename pika::util::detail::invoke_result<Convert,
+                    typename std::invoke_result<Convert,
                         typename pika::traits::range_traits<Rng>::value_type
                     >::type
                 >
@@ -597,11 +596,11 @@ namespace pika::ranges {
                     typename std::iterator_traits<Iter2>::value_type
                 > &&
                 std::is_invocable_v<Reduce,
-                    typename pika::util::detail::invoke_result<Convert,
+                    typename std::invoke_result<Convert,
                         typename pika::traits::range_traits<Rng>::value_type,
                         typename std::iterator_traits<Iter2>::value_type
                     >::type,
-                    typename pika::util::detail::invoke_result<Convert,
+                    typename std::invoke_result<Convert,
                         typename pika::traits::range_traits<Rng>::value_type,
                         typename std::iterator_traits<Iter2>::value_type
                     >::type
@@ -640,11 +639,11 @@ namespace pika::ranges {
                     typename std::iterator_traits<Iter2>::value_type
                 > &&
                 std::is_invocable_v<Reduce,
-                    typename pika::util::detail::invoke_result<Convert,
+                    typename std::invoke_result<Convert,
                         typename pika::traits::range_traits<Rng>::value_type,
                         typename std::iterator_traits<Iter2>::value_type
                     >::type,
-                    typename pika::util::detail::invoke_result<Convert,
+                    typename std::invoke_result<Convert,
                         typename pika::traits::range_traits<Rng>::value_typee,
                         typename std::iterator_traits<Iter2>::value_type
                     >::type

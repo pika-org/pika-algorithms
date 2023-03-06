@@ -217,9 +217,9 @@ namespace pika {
 #include <pika/concepts/concepts.hpp>
 #include <pika/functional/detail/tag_fallback_invoke.hpp>
 #include <pika/functional/invoke.hpp>
-#include <pika/functional/invoke_result.hpp>
 #include <pika/iterator_support/traits/is_iterator.hpp>
 #include <pika/type_support/unused.hpp>
+#include <type_traits>
 
 #include <pika/executors/execution_policy.hpp>
 #include <pika/parallel/algorithms/detail/advance_to_sentinel.hpp>
@@ -387,9 +387,9 @@ namespace pika {
                 std::is_invocable_v<UnOp,
                     typename std::iterator_traits<InIter>::value_type> &&
                 std::is_invocable_v<BinOp,
-                    typename pika::util::detail::invoke_result_t<UnOp,
+                    typename std::invoke_result_t<UnOp,
                         typename std::iterator_traits<InIter>::value_type>,
-                    typename pika::util::detail::invoke_result_t<UnOp,
+                    typename std::invoke_result_t<UnOp,
                         typename std::iterator_traits<InIter>::value_type>
                 >
             )>
@@ -424,9 +424,9 @@ namespace pika {
                 std::is_invocable_v<UnOp,
                     typename std::iterator_traits<FwdIter1>::value_type> &&
                 std::is_invocable_v<BinOp,
-                    typename pika::util::detail::invoke_result_t<UnOp,
+                    typename std::invoke_result_t<UnOp,
                         typename std::iterator_traits<FwdIter1>::value_type>,
-                    typename pika::util::detail::invoke_result_t<UnOp,
+                    typename std::invoke_result_t<UnOp,
                         typename std::iterator_traits<FwdIter1>::value_type>
                 >
             )>
