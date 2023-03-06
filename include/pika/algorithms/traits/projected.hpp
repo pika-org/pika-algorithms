@@ -8,7 +8,6 @@
 
 #include <pika/config.hpp>
 #include <pika/execution/traits/is_execution_policy.hpp>
-#include <pika/functional/invoke_result.hpp>
 #include <pika/iterator_support/traits/is_iterator.hpp>
 #include <pika/parallel/util/vector_pack_load_store.hpp>
 #include <pika/parallel/util/vector_pack_type.hpp>
@@ -41,8 +40,7 @@ namespace pika::parallel::detail {
     template <typename Proj, typename Iter>
     struct projected_result_of_impl<Proj, Iter,
         typename std::enable_if<pika::traits::is_iterator<Iter>::value>::type>
-      : pika::util::detail::invoke_result<Proj,
-            typename std::iterator_traits<Iter>::reference>
+      : std::invoke_result<Proj, typename std::iterator_traits<Iter>::reference>
     {
     };
 
@@ -59,7 +57,7 @@ namespace pika::parallel::detail {
     // with a tuple<datapar<T>...> instead of just a tuple<T...>
     template <typename Proj, typename ValueType, typename Enable = void>
     struct projected_result_of_vector_pack_
-      : pika::util::detail::invoke_result<Proj,
+      : std::invoke_result<Proj,
             typename pika::parallel::traits::detail::vector_pack_load<
                 typename pika::parallel::traits::detail::vector_pack_type<
                     ValueType>::type,
@@ -100,7 +98,7 @@ namespace pika::parallel::detail {
             std::is_invocable<Proj,
                 typename std::iterator_traits<Iter>::reference>::value>::type>
       : std::integral_constant<bool,
-            !std::is_void<typename pika::util::detail::invoke_result<Proj,
+            !std::is_void<typename std::invoke_result<Proj,
                 typename std::iterator_traits<Iter>::reference>::type>::value>
     {
     };

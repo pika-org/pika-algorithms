@@ -839,9 +839,9 @@ namespace pika::ranges {
                 std::is_invocable_v<UnOp,
                     typename std::iterator_traits<InIter>::value_type> &&
                 std::is_invocable_v<BinOp,
-                    typename pika::util::detail::invoke_result_t<UnOp,
+                    typename std::invoke_result_t<UnOp,
                         typename std::iterator_traits<InIter>::value_type>,
-                    typename pika::util::detail::invoke_result_t<UnOp,
+                    typename std::invoke_result_t<UnOp,
                         typename std::iterator_traits<InIter>::value_type>
                 >
             )>
@@ -877,9 +877,9 @@ namespace pika::ranges {
                 std::is_invocable_v<UnOp,
                     typename std::iterator_traits<FwdIter1>::value_type> &&
                 std::is_invocable_v<BinOp,
-                    typename pika::util::detail::invoke_result_t<UnOp,
+                    typename std::invoke_result_t<UnOp,
                         typename std::iterator_traits<FwdIter1>::value_type>,
-                    typename pika::util::detail::invoke_result_t<UnOp,
+                    typename std::invoke_result_t<UnOp,
                         typename std::iterator_traits<FwdIter1>::value_type>
                 >
             )>
@@ -912,9 +912,9 @@ namespace pika::ranges {
                 std::is_invocable_v<UnOp,
                     typename pika::traits::range_traits<Rng>::value_type> &&
                 std::is_invocable_v<BinOp,
-                    typename pika::util::detail::invoke_result_t<UnOp,
+                    typename std::invoke_result_t<UnOp,
                         typename pika::traits::range_traits<Rng>::value_type>,
-                    typename pika::util::detail::invoke_result_t<UnOp,
+                    typename std::invoke_result_t<UnOp,
                         typename pika::traits::range_traits<Rng>::value_type>
                 >
             )>
@@ -949,9 +949,9 @@ namespace pika::ranges {
                 std::is_invocable_v<UnOp,
                     typename pika::traits::range_traits<Rng>::value_type> &&
                 std::is_invocable_v<BinOp,
-                    typename pika::util::detail::invoke_result_t<UnOp,
+                    typename std::invoke_result_t<UnOp,
                         typename pika::traits::range_traits<Rng>::value_type>,
-                    typename pika::util::detail::invoke_result_t<UnOp,
+                    typename std::invoke_result_t<UnOp,
                         typename pika::traits::range_traits<Rng>::value_type>
                 >
             )>
@@ -990,9 +990,9 @@ namespace pika::ranges {
                 std::is_invocable_v<UnOp,
                     typename std::iterator_traits<InIter>::value_type> &&
                 std::is_invocable_v<BinOp,
-                    typename pika::util::detail::invoke_result_t<UnOp,
+                    typename std::invoke_result_t<UnOp,
                         typename std::iterator_traits<InIter>::value_type>,
-                    typename pika::util::detail::invoke_result_t<UnOp,
+                    typename std::invoke_result_t<UnOp,
                         typename std::iterator_traits<InIter>::value_type>
                 >
             )>
@@ -1029,9 +1029,9 @@ namespace pika::ranges {
                 std::is_invocable_v<UnOp,
                     typename std::iterator_traits<FwdIter1>::value_type> &&
                 std::is_invocable_v<BinOp,
-                    typename pika::util::detail::invoke_result_t<UnOp,
+                    typename std::invoke_result_t<UnOp,
                         typename std::iterator_traits<FwdIter1>::value_type>,
-                    typename pika::util::detail::invoke_result_t<UnOp,
+                    typename std::invoke_result_t<UnOp,
                         typename std::iterator_traits<FwdIter1>::value_type>
                 >
             )>
@@ -1066,9 +1066,9 @@ namespace pika::ranges {
                 std::is_invocable_v<UnOp,
                     typename pika::traits::range_traits<Rng>::value_type> &&
                 std::is_invocable_v<BinOp,
-                    typename pika::util::detail::invoke_result_t<UnOp,
+                    typename std::invoke_result_t<UnOp,
                         typename pika::traits::range_traits<Rng>::value_type>,
-                    typename pika::util::detail::invoke_result_t<UnOp,
+                    typename std::invoke_result_t<UnOp,
                         typename pika::traits::range_traits<Rng>::value_type>
                 >
             )>
@@ -1105,9 +1105,9 @@ namespace pika::ranges {
                 std::is_invocable_v<UnOp,
                     typename pika::traits::range_traits<Rng>::value_type> &&
                 std::is_invocable_v<BinOp,
-                    typename pika::util::detail::invoke_result_t<UnOp,
+                    typename std::invoke_result_t<UnOp,
                         typename pika::traits::range_traits<Rng>::value_type>,
-                    typename pika::util::detail::invoke_result_t<UnOp,
+                    typename std::invoke_result_t<UnOp,
                         typename pika::traits::range_traits<Rng>::value_type>
                 >
             )>
