@@ -11,7 +11,6 @@
 #include <pika/execution/traits/is_execution_policy.hpp>
 #include <pika/functional/detail/invoke.hpp>
 #include <pika/functional/detail/tag_fallback_invoke.hpp>
-#include <type_traits>
 #include <pika/iterator_support/traits/is_iterator.hpp>
 #include <pika/parallel/util/cancellation_token.hpp>
 #include <pika/parallel/util/projection_identity.hpp>

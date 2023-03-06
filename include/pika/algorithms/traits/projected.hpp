@@ -40,8 +40,7 @@ namespace pika::parallel::detail {
     template <typename Proj, typename Iter>
     struct projected_result_of_impl<Proj, Iter,
         typename std::enable_if<pika::traits::is_iterator<Iter>::value>::type>
-      : std::invoke_result<Proj,
-            typename std::iterator_traits<Iter>::reference>
+      : std::invoke_result<Proj, typename std::iterator_traits<Iter>::reference>
     {
     };
 

@@ -245,7 +245,6 @@ namespace pika {
 
 #include <pika/config.hpp>
 #include <pika/concepts/concepts.hpp>
-#include <type_traits>
 #include <pika/iterator_support/range.hpp>
 #include <pika/iterator_support/traits/is_iterator.hpp>
 #include <pika/iterator_support/traits/is_range.hpp>

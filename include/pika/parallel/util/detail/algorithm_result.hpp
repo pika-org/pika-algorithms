@@ -268,8 +268,7 @@ namespace pika::parallel::detail {
     pika::future<typename std::invoke_result<Conv, U>::type>
     convert_to_result(pika::future<U>&& f, Conv&& conv)
     {
-        using result_type =
-            typename std::invoke_result<Conv, U>::type;
+        using result_type = typename std::invoke_result<Conv, U>::type;
 
         return pika::make_future<result_type>(
             PIKA_MOVE(f), PIKA_FORWARD(Conv, conv));

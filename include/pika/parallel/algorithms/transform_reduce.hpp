@@ -254,11 +254,11 @@ namespace pika {
 #include <pika/config.hpp>
 #include <pika/concepts/concepts.hpp>
 #include <pika/functional/invoke.hpp>
-#include <type_traits>
 #include <pika/iterator_support/range.hpp>
 #include <pika/iterator_support/traits/is_iterator.hpp>
 #include <pika/pack_traversal/unwrap.hpp>
 #include <pika/parallel/util/detail/sender_util.hpp>
+#include <type_traits>
 
 #include <pika/executors/execution_policy.hpp>
 #include <pika/parallel/algorithms/detail/accumulate.hpp>

@@ -404,8 +404,8 @@ namespace pika {
 #include <pika/concepts/concepts.hpp>
 #include <pika/functional/detail/tag_fallback_invoke.hpp>
 #include <pika/functional/invoke.hpp>
-#include <type_traits>
 #include <pika/iterator_support/traits/is_iterator.hpp>
+#include <type_traits>
 
 #include <pika/executors/execution_policy.hpp>
 #include <pika/parallel/algorithms/detail/advance_to_sentinel.hpp>

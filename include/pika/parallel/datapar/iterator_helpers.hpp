@@ -11,7 +11,6 @@
 #if defined(PIKA_ALGORITHMS_HAVE_DATAPAR)
 #include <pika/assert.hpp>
 #include <pika/functional/detail/invoke.hpp>
-#include <type_traits>
 #include <pika/iterator_support/traits/is_iterator.hpp>
 #include <pika/parallel/util/vector_pack_alignment_size.hpp>
 #include <pika/parallel/util/vector_pack_load_store.hpp>
