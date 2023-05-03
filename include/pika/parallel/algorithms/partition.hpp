@@ -447,11 +447,11 @@ namespace pika {
 #include <pika/config.hpp>
 #include <pika/assert.hpp>
 #include <pika/concepts/concepts.hpp>
+#include <pika/concurrency/spinlock.hpp>
 #include <pika/functional/invoke.hpp>
 #include <pika/futures/future.hpp>
 #include <pika/iterator_support/traits/is_iterator.hpp>
 #include <pika/modules/async.hpp>
-#include <pika/synchronization/spinlock.hpp>
 #include <pika/type_support/unused.hpp>
 
 #include <pika/algorithms/traits/projected.hpp>
@@ -874,7 +874,7 @@ namespace pika::parallel::detail {
             std::size_t left_, right_;
             std::size_t block_size_;
             std::int64_t left_block_no_{-1}, right_block_no_{1};
-            pika::spinlock mutex_;
+            pika::concurrency::detail::spinlock mutex_;
         };
 
         // block manager for forward access iterator.
@@ -955,7 +955,7 @@ namespace pika::parallel::detail {
             std::vector<block<FwdIter>> blocks_;
             std::size_t left_, right_;
             std::int64_t left_block_no_{-1}, right_block_no_{1};
-            pika::spinlock mutex_;
+            pika::concurrency::detail::spinlock mutex_;
         };
 
         // std::swap_ranges doesn't support overlapped ranges in standard.
