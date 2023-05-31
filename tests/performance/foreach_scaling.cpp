@@ -235,7 +235,6 @@ int pika_main(pika::program_options::variables_map& vm)
     chunk_size = vm["chunk_size"].as<int>();
     num_overlapping_loops = vm["overlapping_loops"].as<int>();
     disable_stealing = vm.count("disable_stealing");
-    fast_idle_mode = vm.count("fast_idle_mode");
 
     bool enable_all = vm.count("enable_all");
     if (!vm.count("parallel_foreach") && !vm.count("task_foreach") &&
@@ -262,10 +261,6 @@ int pika_main(pika::program_options::variables_map& vm)
         {
             pika::threads::remove_scheduler_mode(
                 scheduler_mode::enable_stealing);
-        }
-        if (fast_idle_mode)
-        {
-            pika::threads::add_scheduler_mode(scheduler_mode::fast_idle_mode);
         }
 
         // results
@@ -390,11 +385,6 @@ int pika_main(pika::program_options::variables_map& vm)
         {
             pika::threads::add_scheduler_mode(scheduler_mode::enable_stealing);
         }
-        if (fast_idle_mode)
-        {
-            pika::threads::remove_scheduler_mode(
-                scheduler_mode::fast_idle_mode);
-        }
 
         if (csvoutput)
         {
@@ -507,7 +497,6 @@ int main(int argc, char* argv[])
             "use specified executor (possible values: forkjoin, "
             "scheduler, or parallel (default)")
         ("disable_stealing", "disable thread stealing")
-        ("fast_idle_mode", "enable fast idle mode")
 
         ("enable_all", "enable all benchmarks")
         ("parallel_foreach", "enable parallel_foreach")

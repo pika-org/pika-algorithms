@@ -35,7 +35,6 @@ int test_count = 100;
 int chunk_size = 0;
 int num_overlapping_loops = 0;
 bool disable_stealing = false;
-bool fast_idle_mode = false;
 unsigned int seed = std::random_device{}();
 std::mt19937 gen(seed);
 

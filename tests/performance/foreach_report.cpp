@@ -39,7 +39,6 @@ int pika_main(pika::program_options::variables_map& vm)
     test_count = vm["test_count"].as<int>();
     chunk_size = vm["chunk_size"].as<int>();
     disable_stealing = vm.count("disable_stealing");
-    fast_idle_mode = vm.count("fast_idle_mode");
 
     // verify that input is within domain of program
     if (test_count == 0 || test_count < 0)
@@ -57,11 +56,6 @@ int pika_main(pika::program_options::variables_map& vm)
     {
         pika::threads::remove_scheduler_mode(
             ::pika::threads::scheduler_mode::enable_stealing);
-    }
-    if (fast_idle_mode)
-    {
-        pika::threads::add_scheduler_mode(
-            ::pika::threads::scheduler_mode::fast_idle_mode);
     }
 
     {
@@ -128,7 +122,6 @@ int main(int argc, char* argv[])
         ("chunk_size", value<int>()->default_value(0),
             "number of iterations to combine while parallelization")
         ("disable_stealing", "disable thread stealing")
-        ("fast_idle_mode", "enable fast idle mode")
         ;
     // clang-format on
 
