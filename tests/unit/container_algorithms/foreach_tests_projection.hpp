@@ -76,7 +76,7 @@ void test_for_each(ExPolicy&& policy, IteratorTag, Proj&& proj)
         proj);
 
     PIKA_TEST(result == iterator(std::end(c)));
-    PIKA_TEST_EQ(count, c.size());
+    PIKA_TEST_EQ(count.load(), c.size());
 }
 
 template <typename ExPolicy, typename IteratorTag, typename Proj>
@@ -102,7 +102,7 @@ void test_for_each_async(ExPolicy&& p, IteratorTag, Proj&& proj)
     f.wait();
 
     PIKA_TEST(f.get() == iterator(std::end(c)));
-    PIKA_TEST_EQ(count, c.size());
+    PIKA_TEST_EQ(count.load(), c.size());
 }
 
 ////////////////////////////////////////////////////////////////////////////////
