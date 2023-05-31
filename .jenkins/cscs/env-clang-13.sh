@@ -11,8 +11,9 @@ hwloc_version="2.6.0"
 pika_version="0.11.0"
 spack_compiler="clang@${clang_version}"
 spack_arch="cray-cnl7-broadwell"
+stdexec_version="6510f5bd69cc03b24668f26eda3dd3cca7e81bb2"
 
-spack_spec="pika-algorithms@main arch=${spack_arch} %${spack_compiler} cxxflags=-stdlib=libc++ cxxstd=${cxx_std} ^pika@${pika_version} cxxflags=-stdlib=libc++ malloc=system +p2300 ^boost@${boost_version} ^hwloc@${hwloc_version}"
+spack_spec="pika-algorithms@main arch=${spack_arch} %${spack_compiler} cxxflags=-stdlib=libc++ cxxstd=${cxx_std} ^pika@${pika_version} cxxflags=-stdlib=libc++ malloc=system +stdexec ^boost@${boost_version} ^hwloc@${hwloc_version} ^stdexec@${stdexec_version}"
 
 configure_extra_options+=" -DCMAKE_CXX_FLAGS=-stdlib=libc++"
 configure_extra_options+=" -DPIKA_ALGORITHMS_WITH_CXX_STANDARD=${cxx_std}"

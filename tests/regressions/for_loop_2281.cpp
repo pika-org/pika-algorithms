@@ -7,6 +7,7 @@
 #include <pika/algorithm.hpp>
 #include <pika/execution.hpp>
 #include <pika/init.hpp>
+#include <pika/mutex.hpp>
 #include <pika/testing.hpp>
 
 #include <cstddef>
@@ -18,11 +19,11 @@
 ///////////////////////////////////////////////////////////////////////////////
 int pika_main()
 {
-    pika::spinlock mtx;
+    pika::mutex mtx;
     std::set<pika::thread::id> thread_ids;
 
     pika::for_loop(pika::execution::par, 0, 100, [&](int) {
-        std::lock_guard<pika::spinlock> l(mtx);
+        std::lock_guard<pika::mutex> l(mtx);
         thread_ids.insert(pika::this_thread::get_id());
     });
 
@@ -31,7 +32,7 @@ int pika_main()
     thread_ids.clear();
 
     pika::for_loop_n(pika::execution::par, 0, 100, [&](int) {
-        std::lock_guard<pika::spinlock> l(mtx);
+        std::lock_guard<pika::mutex> l(mtx);
         thread_ids.insert(pika::this_thread::get_id());
     });
 
