@@ -31,7 +31,7 @@ void bulk_test_function(pika::spmd_block block, std::atomic<std::size_t>* c)
     {
         ++c[0];
         block.sync_all();
-        PIKA_TEST_EQ(c[0], test_count);
+        PIKA_TEST_EQ(c[0].load(), test_count);
         block.sync_all();
     }
 
@@ -45,7 +45,7 @@ void bulk_test_function(pika::spmd_block block, std::atomic<std::size_t>* c)
     block.sync_images(0, 1);
     if ((image_id == 0) || (image_id == 1))
     {
-        PIKA_TEST_EQ(c[1], (std::size_t) 2);
+        PIKA_TEST_EQ(c[1].load(), (std::size_t) 2);
     }
 
     if ((image_id == 2) || (image_id == 3) || (image_id == 4))
@@ -55,7 +55,7 @@ void bulk_test_function(pika::spmd_block block, std::atomic<std::size_t>* c)
     block.sync_images(2, 3, 4);
     if ((image_id == 2) || (image_id == 3) || (image_id == 4))
     {
-        PIKA_TEST_EQ(c[2], (std::size_t) 3);
+        PIKA_TEST_EQ(c[2].load(), (std::size_t) 3);
     }
 
     // Test sync_images() with vector of values
@@ -70,7 +70,7 @@ void bulk_test_function(pika::spmd_block block, std::atomic<std::size_t>* c)
     if ((image_id == 5) || (image_id == 6) || (image_id == 7) ||
         (image_id == 8))
     {
-        PIKA_TEST_EQ(c[3], (std::size_t) 4);
+        PIKA_TEST_EQ(c[3].load(), (std::size_t) 4);
     }
     block.sync_images(vec_images);
     if ((image_id == 5) || (image_id == 6) || (image_id == 7) ||
@@ -82,7 +82,7 @@ void bulk_test_function(pika::spmd_block block, std::atomic<std::size_t>* c)
     if ((image_id == 5) || (image_id == 6) || (image_id == 7) ||
         (image_id == 8))
     {
-        PIKA_TEST_EQ(c[3], (std::size_t) 8);
+        PIKA_TEST_EQ(c[3].load(), (std::size_t) 8);
     }
 }
 
