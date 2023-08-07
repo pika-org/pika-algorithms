@@ -7,16 +7,17 @@
 #pragma once
 
 #include <pika/config.hpp>
-#include <pika/functional/invoke_fused.hpp>
+#include <pika/parallel/util/detail/void_guard.hpp>
 
 #include <cstddef>
+#include <tuple>
 #include <type_traits>
 #include <utility>
 
 ///////////////////////////////////////////////////////////////////////////////
 namespace pika::parallel::detail {
     // Hand-crafted function object allowing to replace a more complex
-    // bind(functional::invoke_fused(), f1, _1)
+    // bind(std::apply, f1, _1)
     template <typename Result, typename F>
     struct partitioner_iteration
     {
@@ -25,8 +26,7 @@ namespace pika::parallel::detail {
         template <typename T>
         PIKA_HOST_DEVICE PIKA_FORCEINLINE Result operator()(T&& t)
         {
-            return pika::util::detail::invoke_fused_r<Result>(
-                f_, PIKA_FORWARD(T, t));
+            return void_guard<Result>(), std::apply(f_, PIKA_FORWARD(T, t));
         }
     };
 }    // namespace pika::parallel::detail
