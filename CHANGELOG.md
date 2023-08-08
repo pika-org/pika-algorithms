@@ -4,6 +4,12 @@
 <!--- Distributed under the Boost Software License, Version 1.0. (See accompanying -->
 <!--- file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt) -->
 
+## 0.1.4 (2023-08-08)
+
+### New features
+
+- Allow using pika 0.17.0. ([#31](https://github.com/pika-org/pika-algorithms/pull/31))
+
 ## 0.1.3 (2023-05-31)
 
 ### New features
