@@ -19,9 +19,10 @@ pika-algorithms
 ===============
 
 pika-algorithms is a C++ library containing parallel algorithms built on top of
-`pika <https://github.com/pika-org/pika>`_. **pika-algorithms is mostly in
-maintenance mode**. The intention is to replace the algorithms based on a
-generic implementation built on  `P2300 <https://wg21.link/p2300>`_.
+`pika <https://github.com/pika-org/pika>`_. **pika-algorithms is no longer
+developed and is incompatible with pika 0.21.0 and newer**. The intention is to
+replace the algorithms based on a generic implementation built on  `P2300
+<https://wg21.link/p2300>`_.
 
 Dependencies
 ============
@@ -35,7 +36,7 @@ pika-algorithms requires:
   * MSVC may work but it is not tested
 
 * `CMake <https://cmake.org>`_ 3.22.0 or greater
-* `pika <https://github.com/pika-org/pika>`_ 0.11.0 or greater
+* `pika <https://github.com/pika-org/pika>`_ 0.11.0-0.20.0
 
 The following are required for tests and examples:
 
